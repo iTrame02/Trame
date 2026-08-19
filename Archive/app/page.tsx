@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import ContactForm from "@/components/ContactForm";
 
-
 const steps = [
   {
     title: "Comprendre.",
@@ -539,11 +538,6 @@ export default function Home() {
         </div>
       </section>
 
-
-
-
-
-
       {/* CONTACT */}
       <section
         id="contact"
@@ -606,7 +600,6 @@ export default function Home() {
               <ContactForm />
           
             </div>
-            
           </motion.div>
         </div>
       </section>
@@ -625,10 +618,8 @@ export default function Home() {
           <p className="text-xs text-[#7E7A85]">
             © {new Date().getFullYear()} iTrame.
           </p>
-
-            </div>
+        </div>
       </footer>
     </main>
   );
 }
-

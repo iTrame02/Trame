@@ -1,32 +1,33 @@
+import Link from "next/link";
+
 export default function MerciPage() {
-    return (
-      <main className="min-h-screen flex items-center justify-center px-6 bg-[#0d0d0f] text-[#f5f3ef]">
-        <div className="w-full max-w-3xl text-center">
-          <div className="rounded-[28px] border border-[#9b7bff]/25 px-8 py-14 md:px-14 md:py-20">
-            <p className="text-sm text-[#A9A5B0] mb-6">
-              Message envoyé
-            </p>
-  
-            <h1 className="text-4xl md:text-6xl font-medium tracking-tight">
-              Merci<span className="text-[#9b7bff]">!</span>
-            </h1>
-  
-            <p className="mt-6 text-lg md:text-xl text-neutral-300 leading-relaxed">
-              Votre message a bien été envoyé.
-            </p>
-  
-            <p className="mt-3 text-[#A9A5B0] leading-relaxed">
-              Nous reviendrons vers vous au plus vite pour échanger autour de votre projet.
-            </p>
-  
-            <a
-              href="/"
-              className="inline-flex mt-10 rounded-full border border-[#9b7bff]/40 px-6 py-3 text-sm transition hover:border-[#9b7bff]"
-            >
-              Retour à l&apos;accueil
-            </a>
-          </div>
-        </div>
-      </main>
-    );
-  }
+  return (
+    <main className="flex min-h-screen items-center justify-center bg-[#0d0d0f] px-6 text-[#f5f3ef]">
+      <section className="w-full max-w-2xl text-center">
+        <p className="mb-5 text-sm uppercase tracking-[0.25em] text-[#9b7bff]">
+          Message envoyé
+        </p>
+
+        <h1 className="text-5xl font-medium tracking-tight md:text-7xl">
+          Merci<span className="text-[#9b7bff]">!</span>
+        </h1>
+
+        <p className="mx-auto mt-7 max-w-xl text-lg leading-relaxed text-neutral-300">
+          Votre demande a bien été envoyée.
+        </p>
+
+        <p className="mx-auto mt-3 max-w-xl leading-relaxed text-[#A9A5B0]">
+          Nous reviendrons vers vous rapidement afin d’échanger autour de votre
+          projet et de ses prochaines étapes.
+        </p>
+
+        <Link
+          href="/"
+          className="mt-10 inline-flex rounded-full border border-[#9b7bff]/50 px-7 py-3 text-sm transition hover:border-[#9b7bff] hover:bg-[#9b7bff]/10"
+        >
+          Retour à l’accueil
+        </Link>
+      </section>
+    </main>
+  );
+}

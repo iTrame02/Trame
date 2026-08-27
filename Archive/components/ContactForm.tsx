@@ -44,6 +44,8 @@ export default function ContactForm() {
 
       setStatus("success");
       form.reset();
+
+      window.location.href = "/merci";
     } catch (error) {
       setStatus("error");
 
@@ -56,7 +58,10 @@ export default function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mt-12 grid gap-6 md:grid-cols-2">
+    <form
+      onSubmit={handleSubmit}
+      className="mt-12 grid gap-6 md:grid-cols-2"
+    >
       <div>
         <label className="mb-2 block text-sm text-[#A9A5B0]">
           Nom *
@@ -153,12 +158,6 @@ export default function ContactForm() {
             ? "Envoi en cours..."
             : "Envoyer mon projet →"}
         </button>
-
-        {status === "success" && (
-          <p className="text-sm text-[#A9A5B0]">
-            Merci ! Votre demande a bien été envoyée.
-          </p>
-        )}
 
         {status === "error" && (
           <p className="text-sm text-red-400">

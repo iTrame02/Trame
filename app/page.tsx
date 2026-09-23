@@ -1,9 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import ContactForm from "@/components/ContactForm";
-
 
 const steps = [
   {
@@ -94,7 +94,66 @@ const formulas = [
   },
 ];
 
+const portfolio = [
+  {
+    number: "01",
+    title: "N&M Luxury",
+    tag: "Location automobile premium",
+    desc: "Site vitrine et réservation pour une flotte de véhicules de luxe. Design immersif orienté expérience premium.",
+    url: "https://netmluxury.netlify.app/",
+    color: "#8f3cff",
+  },
+  {
+    number: "02",
+    title: "Chez MLD",
+    tag: "Restauration & commande en ligne",
+    desc: "Application de commande mobile-first pour une activité burgers. Panier, paiement TWINT et zones de livraison.",
+    url: "https://chezmld.netlify.app/",
+    color: "#C9A227",
+  },
+  {
+    number: "03",
+    title: "Braise",
+    tag: "E-commerce — Torréfacteur",
+    desc: "Boutique en ligne pour un torréfacteur neuchâtelois. Coffrets, abonnements et art généré par altitude de culture.",
+    url: "https://cafelebleu.netlify.app/",
+    color: "#C2462B",
+  },
+  {
+    number: "04",
+    title: "Sabre",
+    tag: "Réservation — Barbershop bilingue",
+    desc: "Système de réservation complet en 4 étapes, bilingue FR/EN. Agenda par coiffeur avec créneaux dynamiques.",
+    url: "https://barbershop203.netlify.app/",
+    color: "#0F3B2E",
+  },
+  {
+    number: "05",
+    title: "L'Heure Bleue",
+    tag: "Bar & Cocktails — Site animé",
+    desc: "Expérience immersive pour un bar lausannois. Animation canvas lac Léman, menu interactif et réservation.",
+    url: "https://labrasse.netlify.app/",
+    color: "#E9A45B",
+  },
+];
+
+const heroWords = ["restaurants", "artisans", "commerçants", "indépendants", "créateurs"];
+
 export default function Home() {
+  const [wordIndex, setWordIndex] = useState(0);
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setVisible(false);
+      setTimeout(() => {
+        setWordIndex((i) => (i + 1) % heroWords.length);
+        setVisible(true);
+      }, 350);
+    }, 2200);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <main>
       <Navbar />
@@ -117,7 +176,19 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.15 }}
             className="mt-8 text-2xl md:text-4xl font-light tracking-tight"
           >
-            Vos idées. Votre histoire. Votre site.
+            Des sites pour les{" "}
+            <span
+              style={{
+                color: "#9b7bff",
+                display: "inline-block",
+                transition: "opacity 0.35s ease, transform 0.35s ease",
+                opacity: visible ? 1 : 0,
+                transform: visible ? "translateY(0)" : "translateY(8px)",
+                minWidth: "240px",
+              }}
+            >
+              {heroWords[wordIndex]}
+            </span>
           </motion.h2>
 
           <motion.p
@@ -144,10 +215,22 @@ export default function Home() {
             </a>
 
             <a
-              href="#histoire"
+              href="#portfolio"
               className="px-7 py-3 rounded-full border border-neutral-700 hover:border-neutral-400 transition"
             >
-              Découvrir notre approche
+              Voir nos réalisations
+            </a>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 1.2 }}
+            className="mt-20 flex justify-center"
+          >
+            <a href="#histoire" className="flex flex-col items-center gap-2 text-neutral-600 hover:text-neutral-400 transition">
+              <span className="text-xs tracking-widest uppercase">Découvrir</span>
+              <span className="block w-px h-8 bg-neutral-700 mx-auto" />
             </a>
           </motion.div>
         </div>
@@ -465,6 +548,82 @@ export default function Home() {
         </div>
       </section>
 
+      {/* PORTFOLIO */}
+      <section
+        id="portfolio"
+        className="py-24 px-6 md:px-10"
+      >
+        <div className="w-full max-w-6xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.1 }}
+            transition={{ duration: 0.8 }}
+          >
+            <p className="text-sm text-[#A9A5B0] mb-8">05 — Réalisations</p>
+
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
+              <h2 className="text-3xl md:text-5xl font-light tracking-tight leading-tight">
+                Des projets construits
+                <br />
+                autour de chaque métier<span className="text-[#9b7bff]">.</span>
+              </h2>
+              <p className="text-[#A9A5B0] max-w-xs leading-relaxed md:text-right">
+                Chaque site a été pensé pour le secteur et les besoins spécifiques du client.
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              {portfolio.map((project, index) => (
+                <motion.a
+                  key={project.number}
+                  href={project.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{ duration: 0.55, delay: index * 0.07 }}
+                  className="group flex flex-col md:flex-row md:items-center gap-4 md:gap-10 rounded-[20px] border border-neutral-800 px-7 py-6 md:py-7 hover:border-[#9b7bff]/40 transition-all duration-300 hover:bg-[#9b7bff]/[0.03] cursor-pointer"
+                >
+                  <span className="text-sm text-[#7E7A85] w-8 shrink-0">{project.number}</span>
+
+                  <div className="flex-1 min-w-0">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+                      <h3 className="text-xl md:text-2xl font-light group-hover:text-white transition">
+                        {project.title}
+                      </h3>
+                      <span className="inline-block text-xs px-3 py-1 rounded-full border border-neutral-700 text-[#A9A5B0] w-fit">
+                        {project.tag}
+                      </span>
+                    </div>
+                    <p className="mt-2 text-sm text-[#7E7A85] max-w-xl leading-relaxed">
+                      {project.desc}
+                    </p>
+                  </div>
+
+                  <span className="text-sm text-neutral-600 group-hover:text-[#9b7bff] transition shrink-0 hidden md:block">
+                    Voir le projet →
+                  </span>
+                </motion.a>
+              ))}
+            </div>
+
+            <div className="mt-12 pt-8 border-t border-neutral-800 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <p className="text-sm text-[#A9A5B0]">
+                Chaque projet est une collaboration unique.
+              </p>
+              <a
+                href="#contact"
+                className="text-sm text-neutral-300 hover:text-[#9b7bff] transition"
+              >
+                Construire le vôtre →
+              </a>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* QUI SOMMES-NOUS */}
       <section
         id="a-propos"
@@ -479,7 +638,7 @@ export default function Home() {
             className="rounded-[28px] border border-[#9b7bff]/25 px-7 py-10 md:px-14 md:py-14"
           >
             <p className="text-sm text-[#A9A5B0] mb-14">
-              05 — Qui sommes-nous
+              06 — Qui sommes-nous
             </p>
 
             <div className="grid md:grid-cols-[1.1fr_0.9fr] gap-14 md:gap-24">
@@ -507,7 +666,7 @@ export default function Home() {
                   ["Médiamaticien", "Création web, communication et contenus numériques."],
                   ["Développement web", "Plusieurs formations certifiées dans la création de sites."],
                   ["Photographie", "Une autre manière de raconter et mettre un projet en valeur."],
-                  ["Expérience terrain", "Une expérience photographique ponctuelle dans l’univers sportif avec Keystone."],
+                  ["Expérience terrain", "Une expérience photographique ponctuelle dans l'univers sportif avec Keystone."],
                 ].map(([title, text]) => (
                   <div key={title}>
                     <div className="flex items-center gap-3">
@@ -539,11 +698,6 @@ export default function Home() {
         </div>
       </section>
 
-
-
-
-
-
       {/* CONTACT */}
       <section
         id="contact"
@@ -558,11 +712,10 @@ export default function Home() {
             className="rounded-[28px] border border-[#9b7bff]/25 px-7 py-10 md:px-14 md:py-14"
           >
             <p className="text-sm text-[#A9A5B0] mb-12">
-              06 — Contact
+              07 — Contact
             </p>
 
             <div className="grid lg:grid-cols-[0.85fr_1.15fr] gap-14 lg:gap-20">
-              {/* GAUCHE */}
               <div>
                 <h2 className="text-3xl md:text-5xl font-light leading-tight">
                   Une idée en tête<span className="text-[#9b7bff]">?</span>
@@ -602,11 +755,8 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* FORMULAIRE */}
               <ContactForm />
-          
             </div>
-            
           </motion.div>
         </div>
       </section>
@@ -615,7 +765,7 @@ export default function Home() {
       <footer className="px-6 md:px-10 pb-10 pt-8">
         <div className="max-w-6xl mx-auto border-t border-neutral-800 pt-8 flex flex-col sm:flex-row gap-5 sm:items-center sm:justify-between">
           <p className="text-sm font-medium">
-          iTrame<span className="text-[#9b7bff]">.</span>
+            iTrame<span className="text-[#9b7bff]">.</span>
           </p>
 
           <p className="text-xs text-[#7E7A85]">
@@ -625,10 +775,8 @@ export default function Home() {
           <p className="text-xs text-[#7E7A85]">
             © {new Date().getFullYear()} iTrame.
           </p>
-
-            </div>
+        </div>
       </footer>
     </main>
   );
 }
-

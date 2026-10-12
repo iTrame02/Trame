@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useMotionTemplate, useMotionValue } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import Navbar from "@/components/Navbar";
 import ContactForm from "@/components/ContactForm";
@@ -95,12 +95,99 @@ const formulas = [
 ];
 
 const portfolio = [
-  { number: "01", title: "N&M Luxury", tag: "Location automobile premium", desc: "Design immersif, réservation en ligne, gestion de flotte.", url: "https://netmluxury.netlify.app/", accent: "#8f3cff" },
-  { number: "02", title: "Chez MLD", tag: "Restauration & commande", desc: "Application mobile-first, panier, paiement TWINT, livraison.", url: "https://chezmld.netlify.app/", accent: "#C9A227" },
-  { number: "03", title: "Braise", tag: "E-commerce torréfacteur", desc: "Boutique, abonnements café, packaging génératif.", url: "https://cafelebleu.netlify.app/", accent: "#C2462B" },
-  { number: "04", title: "Sabre", tag: "Réservation barbershop bilingue", desc: "Wizard 4 étapes, agenda dynamique, FR/EN.", url: "https://barbershop203.netlify.app/", accent: "#2d7a5f" },
-  { number: "05", title: "L'Heure Bleue", tag: "Bar & cocktails animé", desc: "Canvas lac Léman, menu interactif, réservation.", url: "https://labrasse.netlify.app/", accent: "#E9A45B" },
+  { number: "01", title: "L'Heure Bleue", tag: "Bar à cocktails", place: "Lausanne", desc: "Ambiance animée du Léman, carte interactive, agenda et réservation de table.", url: "https://lheurebleu.netlify.app", accent: "#E9A45B" },
+  { number: "02", title: "N&M Luxury", tag: "Location automobile premium", place: "Suisse", desc: "Design immersif, catalogue de véhicules, location et vente en ligne.", url: "https://nmluxury.netlify.app", accent: "#8f3cff" },
+  { number: "03", title: "Physio Pré-du-Château", tag: "Cabinet de physiothérapie", place: "Yverdon-les-Bains", desc: "Prestations, équipe, remboursement, FAQ et prise de rendez-vous en ligne.", url: "https://physiotherapeute.netlify.app", accent: "#2E8B7E" },
+  { number: "04", title: "Braise", tag: "E-commerce torréfacteur", place: "Neuchâtel", desc: "Boutique de cafés, abonnements, panier et livraison dans toute la Suisse.", url: "https://braisecaf.netlify.app", accent: "#C2462B" },
+  { number: "05", title: "Sabre", tag: "Barbier · réservation bilingue", place: "Carouge", desc: "Choix du barbier, créneaux en temps réel, tarifs et site FR/EN.", url: "https://sabrebarber.netlify.app", accent: "#3F9A73" },
+  { number: "06", title: "Grès & Cendre", tag: "Atelier de céramique", place: "Vevey", desc: "Réservation d'ateliers, boutique de pièces en grès, site bilingue.", url: "https://cendreetgrs.netlify.app", accent: "#C7A98B" },
 ];
+
+type Project = (typeof portfolio)[number];
+
+function ProjectCard({ p, index }: { p: Project; index: number }) {
+  const ref = useRef<HTMLAnchorElement>(null);
+  const mx = useMotionValue(50);
+  const my = useMotionValue(0);
+  const glow = useMotionTemplate`radial-gradient(420px circle at ${mx}% ${my}%, ${p.accent}2e 0%, transparent 65%)`;
+  const domain = p.url.replace(/^https?:\/\//, "").replace(/\/$/, "");
+
+  const onMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const r = ref.current?.getBoundingClientRect();
+    if (!r) return;
+    mx.set(((e.clientX - r.left) / r.width) * 100);
+    my.set(((e.clientY - r.top) / r.height) * 100);
+  };
+
+  return (
+    <motion.a
+      ref={ref}
+      href={p.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      onMouseMove={onMove}
+      initial={{ opacity: 0, y: 32 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.75, delay: (index % 3) * 0.08, ease }}
+      whileHover={{ y: -6 }}
+      className="group relative rounded-[20px] border border-neutral-800 bg-[#0d0d0f]/60 overflow-hidden flex flex-col min-h-[300px] hover:border-neutral-600 transition-colors duration-300 p-7"
+      style={{ ["--accent" as string]: p.accent }}
+    >
+      {/* Halo qui suit la souris */}
+      <motion.div
+        aria-hidden="true"
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+        style={{ background: glow }}
+      />
+      {/* Barre d'accent */}
+      <span
+        aria-hidden="true"
+        className="absolute top-0 left-0 h-px w-full origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
+        style={{ background: `linear-gradient(90deg, transparent, ${p.accent}, transparent)` }}
+      />
+
+      <div className="relative z-10 flex flex-col flex-1">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <span className="relative flex w-2 h-2">
+              <span
+                className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-60 group-hover:animate-ping"
+                style={{ backgroundColor: p.accent }}
+              />
+              <span className="relative w-2 h-2 rounded-full" style={{ backgroundColor: p.accent }} />
+            </span>
+            <span className="text-xs text-[#7E7A85]">{p.number}</span>
+          </div>
+          <span className="text-xs text-[#7E7A85]">{p.place}</span>
+        </div>
+
+        <div className="mt-auto pt-12">
+          <span className="inline-block text-xs px-3 py-1 rounded-full border border-neutral-700 text-[#A9A5B0] mb-4 transition-colors duration-300 group-hover:border-[var(--accent)] group-hover:text-neutral-200">
+            {p.tag}
+          </span>
+          <h3 className="text-xl md:text-2xl font-light text-neutral-100 group-hover:text-white transition">{p.title}</h3>
+          <p className="mt-2 text-sm text-[#7E7A85] leading-relaxed">{p.desc}</p>
+
+          <div className="mt-6 pt-5 border-t border-neutral-800/80 flex items-center justify-between text-sm">
+            <span className="text-neutral-600 group-hover:text-neutral-400 transition truncate">{domain}</span>
+            <span className="flex items-center gap-2 text-neutral-500 group-hover:text-white transition shrink-0">
+              Visiter
+              <span className="relative isolate inline-flex w-7 h-7 items-center justify-center rounded-full border border-neutral-700 transition-all duration-300 group-hover:rotate-45 group-hover:border-transparent group-hover:text-black">
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-0 rounded-full scale-0 group-hover:scale-100 transition-transform duration-300 -z-10"
+                  style={{ backgroundColor: p.accent }}
+                />
+                ↑
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </motion.a>
+  );
+}
 
 const heroLines = ["Vos idées.", "Votre histoire.", "Votre site."];
 
@@ -364,7 +451,7 @@ export default function Home() {
       <section id="portfolio" className="py-24 px-6 md:px-10">
         <div className="w-full max-w-6xl mx-auto">
           <motion.div {...fadeUp()}>
-            <p className="text-sm text-[#A9A5B0] mb-8">05 — Réalisations</p>
+            <p className="text-sm text-[#A9A5B0] mb-8">04 — Réalisations</p>
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
               <h2 className="text-3xl md:text-5xl font-light tracking-tight leading-tight">
                 Des projets construits
@@ -372,45 +459,13 @@ export default function Home() {
                 autour de chaque <AccentWord>métier.</AccentWord>
               </h2>
               <p className="text-[#A9A5B0] max-w-xs leading-relaxed md:text-right">
-                Chaque site a été pensé pour le secteur et les besoins spécifiques du client.
+                Six univers, six métiers. Chaque site est pensé pour son secteur — cliquez pour les découvrir en ligne.
               </p>
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
               {portfolio.map((p, index) => (
-                <motion.a
-                  key={p.number}
-                  href={p.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  {...fadeUp(index * 0.07)}
-                  className="group relative rounded-[20px] border border-neutral-800 overflow-hidden flex flex-col min-h-[220px] hover:border-[#9b7bff]/40 transition-all duration-400 cursor-pointer p-7"
-                >
-                  <div
-                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                    style={{ background: `radial-gradient(circle at 50% 0%, ${p.accent}22 0%, transparent 70%)` }}
-                  />
-                  <div className="relative z-10 flex flex-col flex-1">
-                    <div className="flex items-start justify-between">
-                      <span className="text-xs text-[#7E7A85]">{p.number}</span>
-                      <span
-                        className="w-2 h-2 rounded-full mt-1 transition-all duration-300 group-hover:scale-150"
-                        style={{ backgroundColor: p.accent }}
-                      />
-                    </div>
-                    <div className="mt-auto pt-10">
-                      <span className="inline-block text-xs px-3 py-1 rounded-full border border-neutral-700 text-[#A9A5B0] mb-4">
-                        {p.tag}
-                      </span>
-                      <h3 className="text-xl md:text-2xl font-light group-hover:text-white transition">{p.title}</h3>
-                      <p className="mt-2 text-sm text-[#7E7A85] leading-relaxed">{p.desc}</p>
-                      <div className="mt-5 flex items-center gap-2 text-sm text-neutral-600 group-hover:text-[#9b7bff] transition">
-                        Voir le projet
-                        <span className="transform transition-transform duration-200 group-hover:translate-x-1">→</span>
-                      </div>
-                    </div>
-                  </div>
-                </motion.a>
+                <ProjectCard key={p.number} p={p} index={index} />
               ))}
             </div>
 
@@ -431,7 +486,7 @@ export default function Home() {
       <section id="formules" className="min-h-screen flex items-center px-6 md:px-10 py-24">
         <div className="w-full max-w-6xl mx-auto">
           <motion.div {...fadeUp()} className="rounded-[28px] border border-[#9b7bff]/25 px-7 py-10 md:px-14 md:py-14">
-            <p className="text-sm text-[#A9A5B0] mb-8">04 — Les formules</p>
+            <p className="text-sm text-[#A9A5B0] mb-8">05 — Les formules</p>
             <h2 className="text-3xl md:text-5xl font-light tracking-tight">
               Une base pour <AccentWord>commencer.</AccentWord>
             </h2>

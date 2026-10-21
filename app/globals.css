@@ -1,69 +1,120 @@
 @import "tailwindcss";
 
-:root {
-  --background: #0d0d0f;
-  --foreground: #f5f3ef;
-  --accent: #9b7bff;
+/* ── Design system iTrame. ─────────────────────────────
+   Noir profond, violet électrique, rose en accent rare.
+   Le violet sert à agir (boutons, liens), le rose à marquer
+   (repères, soulignés, survols). Jamais de glow, jamais de
+   dégradé décoratif : la couleur reste franche. */
+@theme {
+  --color-ink: #0b0b12;
+  --color-ink-2: #181422;
+  --color-ink-3: #231d31;
+  --color-violet: #855bff;
+  --color-violet-soft: #a888ff;
+  --color-rose: #e56ad9;
+  --color-paper: #f7f6fa;
+  --color-muted: #a19dae;
+  --color-faint: #6e6a7b;
+  --color-line: rgb(247 246 250 / 0.1);
+
+  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-* {
-  box-sizing: border-box;
+:root {
+  --background: #0b0b12;
+  --foreground: #f7f6fa;
+  --accent: #855bff;
 }
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+  background: var(--color-ink);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-ink);
+  color: var(--color-paper);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-/* ── Halo de fond animé ── */
-.bg-halo {
+::selection {
+  background: var(--color-violet);
+  color: var(--color-paper);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-rose);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ── La trame : la grille de 12 colonnes, visible en filigrane ── */
+.trame-grid {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
+  inset: 0;
   z-index: 0;
-  overflow: hidden;
+  pointer-events: none;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin-inline: auto;
+  max-width: 88rem;
+  padding-inline: 1.25rem;
+}
+.trame-grid > span {
+  border-left: 1px solid rgb(247 246 250 / 0.035);
+}
+.trame-grid > span:last-child {
+  border-right: 1px solid rgb(247 246 250 / 0.035);
+}
+@media (min-width: 768px) {
+  .trame-grid {
+    grid-template-columns: repeat(12, 1fr);
+    padding-inline: 2.5rem;
+  }
 }
 
-.bg-halo::before {
-  content: '';
-  position: absolute;
-  width: 700px;
-  height: 700px;
-  background: radial-gradient(circle, rgba(155, 123, 255, 0.07) 0%, transparent 70%);
-  border-radius: 50%;
-  top: -200px;
-  left: -200px;
-  animation: haloMove 18s ease-in-out infinite alternate;
+/* Animations d'entrée du hero en CSS : visibles sans attendre le JS */
+@keyframes rise {
+  from { transform: translateY(105%); }
+  to { transform: translateY(0); }
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes stand-out {
+  from { transform: translateX(0); }
+  to { transform: translateX(var(--offset, 0)); }
+}
+@keyframes grow-x {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+.anim-rise { display: inline-block; animation: rise 0.9s var(--ease-out-expo) both; }
+.anim-fade-up { animation: fade-up 0.8s var(--ease-out-expo) both; }
+.anim-stand-out { animation: stand-out 1s var(--ease-out-expo) both; }
+.anim-grow-x { transform-origin: left; animation: grow-x 1.1s var(--ease-out-expo) both; }
+
+/* Bandeau défilant */
+.marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 40s linear infinite;
+}
+@keyframes marquee {
+  to { transform: translateX(-50%); }
 }
 
-.bg-halo::after {
-  content: '';
-  position: absolute;
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(155, 123, 255, 0.05) 0%, transparent 70%);
-  border-radius: 50%;
-  bottom: -100px;
-  right: -100px;
-  animation: haloMove2 22s ease-in-out infinite alternate;
-}
-
-@keyframes haloMove {
-  0%   { transform: translate(0, 0); }
-  50%  { transform: translate(300px, 200px); }
-  100% { transform: translate(100px, 500px); }
-}
-
-@keyframes haloMove2 {
-  0%   { transform: translate(0, 0); }
-  50%  { transform: translate(-200px, -150px); }
-  100% { transform: translate(-100px, -300px); }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .anim-rise, .anim-fade-up, .anim-stand-out, .anim-grow-x, .marquee {
+    animation: none !important;
+  }
+  .anim-stand-out { transform: translateX(var(--offset, 0)); }
 }

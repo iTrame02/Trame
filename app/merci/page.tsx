@@ -1,33 +1,44 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Merci",
+  robots: { index: false, follow: false },
+};
 
 export default function MerciPage() {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-[#0d0d0f] px-6 text-[#f5f3ef]">
-      <section className="w-full max-w-2xl text-center">
-        <p className="mb-5 text-sm uppercase tracking-[0.25em] text-[#9b7bff]">
+    <main className="mx-auto flex min-h-[100svh] max-w-[88rem] flex-col justify-between px-5 py-8 md:px-10 md:py-10">
+      <Link href="/" className="font-display text-2xl font-bold tracking-tight">
+        iTrame<span className="text-violet">.</span>
+      </Link>
+
+      <section className="py-20">
+        <p className="anim-fade-up flex items-center gap-3 font-display text-sm text-muted">
+          <span className="h-2 w-2 bg-rose" aria-hidden="true" />
           Message envoyé
         </p>
-
-        <h1 className="text-5xl font-medium tracking-tight md:text-7xl">
-          Merci<span className="text-[#9b7bff]">!</span>
+        <h1 className="mt-8 font-display text-[clamp(3.5rem,12vw,11rem)] font-semibold leading-[0.9] tracking-[-0.05em]">
+          <span className="block overflow-hidden pb-[0.08em]">
+            <span className="anim-rise" style={{ animationDelay: "0.1s" }}>Merci</span>
+            <span className="anim-rise text-violet" style={{ animationDelay: "0.2s" }}>.</span>
+          </span>
         </h1>
-
-        <p className="mx-auto mt-7 max-w-xl text-lg leading-relaxed text-neutral-300">
-          Votre demande a bien été envoyée.
+        <p className="anim-fade-up mt-10 max-w-xl text-xl leading-relaxed text-muted" style={{ animationDelay: "0.4s" }}>
+          Ta demande est bien arrivée. <span className="text-paper">Je te réponds sous 24 à 48 heures</span> pour
+          qu&apos;on échange sur ton projet et ses prochaines étapes.
         </p>
-
-        <p className="mx-auto mt-3 max-w-xl leading-relaxed text-[#A9A5B0]">
-          Nous reviendrons vers vous rapidement afin d’échanger autour de votre
-          projet et de ses prochaines étapes.
-        </p>
-
         <Link
           href="/"
-          className="mt-10 inline-flex rounded-full border border-[#9b7bff]/50 px-7 py-3 text-sm transition hover:border-[#9b7bff] hover:bg-[#9b7bff]/10"
+          className="anim-fade-up group mt-12 inline-flex items-center gap-6 border border-paper/25 px-6 py-4 font-semibold transition-colors hover:border-paper"
+          style={{ animationDelay: "0.55s" }}
         >
-          Retour à l’accueil
+          <span className="transition-transform duration-300 group-hover:-translate-x-1">←</span>
+          Retour à l&apos;accueil
         </Link>
       </section>
+
+      <p className="text-xs text-faint">© {new Date().getFullYear()} iTrame.</p>
     </main>
   );
 }

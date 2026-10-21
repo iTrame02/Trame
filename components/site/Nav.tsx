@@ -2,12 +2,14 @@
 
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { useEffect, useState } from "react";
+import Logo from "./Logo";
 import { ease } from "./motion";
 
 const links = [
   { href: "#accueil", label: "Accueil" },
   { href: "#projets", label: "Projets" },
   { href: "#services", label: "Services" },
+  { href: "#formules", label: "Formules" },
   { href: "#a-propos", label: "À propos" },
 ];
 
@@ -33,8 +35,8 @@ export default function Nav() {
         style={{ animationDelay: "0.1s" }}
       >
         <nav className="mx-auto flex h-16 max-w-[88rem] items-center justify-between px-5 md:h-20 md:px-10" aria-label="Navigation principale">
-          <a href="#accueil" className="font-display text-2xl font-bold tracking-tight" onClick={() => setOpen(false)}>
-            iTrame<span className="text-violet">.</span>
+          <a href="#accueil" className="font-display text-2xl font-bold tracking-tight" onClick={() => setOpen(false)} aria-label="iTrame., retour à l'accueil">
+            <Logo />
           </a>
 
           <ul className="hidden items-center gap-9 md:flex">

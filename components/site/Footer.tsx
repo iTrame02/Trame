@@ -1,6 +1,10 @@
+import Logo from "./Logo";
+
 const links = [
   { href: "#projets", label: "Projets" },
   { href: "#services", label: "Services" },
+  { href: "#formules", label: "Formules" },
+  { href: "#faq", label: "Questions" },
   { href: "#a-propos", label: "À propos" },
   { href: "#contact", label: "Contact" },
 ];
@@ -36,7 +40,7 @@ export default function Footer() {
         aria-hidden="true"
         className="mt-16 select-none whitespace-nowrap font-display text-[min(calc((100vw_-_2.5rem)/3.05),27rem)] font-bold leading-[0.8] tracking-[-0.07em] md:mt-24 md:text-[min(calc((100vw_-_5rem)/3.05),27rem)]"
       >
-        iTrame<span className="text-violet">.</span>
+        <Logo />
       </p>
 
       <div className="mt-8 flex flex-col gap-2 text-xs text-faint sm:flex-row sm:justify-between">

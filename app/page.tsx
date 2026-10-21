@@ -1,9 +1,13 @@
 import Nav from "@/components/site/Nav";
 import Hero from "@/components/site/Hero";
+import Marquee from "@/components/site/Marquee";
 import Projects from "@/components/site/Projects";
 import Services from "@/components/site/Services";
+import Process from "@/components/site/Process";
 import Why from "@/components/site/Why";
+import Formulas from "@/components/site/Formulas";
 import About from "@/components/site/About";
+import Faq from "@/components/site/Faq";
 import Contact from "@/components/site/Contact";
 import Footer from "@/components/site/Footer";
 import MobileCta from "@/components/site/MobileCta";
@@ -28,10 +32,14 @@ export default function Home() {
       <Nav />
       <main className="relative z-10">
         <Hero />
+        <Marquee />
         <Projects />
         <Services />
+        <Process />
         <Why />
+        <Formulas />
         <About />
+        <Faq />
         <Contact />
       </main>
       <Footer />

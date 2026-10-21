@@ -1,103 +1,223 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useInView, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 import { useRef } from "react";
-import { projects, type Project } from "@/lib/projects";
+import { featured, img, projects, type Project } from "@/lib/projects";
+import { BrowserFrame, Phone, ScrollShot } from "./Devices";
 import { Label, Reveal, SplitHeading, ease } from "./motion";
 
-function ProjectImage({ p, sizes, aspect }: { p: Project; sizes: string; aspect: string }) {
+/* Révélation par rideau au scroll. La détection se fait sur le parent :
+   un élément masqué par clip-path n'est jamais « visible » pour le navigateur. */
+function Curtain({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, amount: 0.15 });
   const reduce = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], reduce ? ["0%", "0%"] : ["-5%", "5%"]);
-  const inView = useInView(ref, { once: true, amount: 0.2 });
-
-  // La détection se fait sur le parent : un élément masqué par clip-path
-  // n'est jamais considéré « visible » par le navigateur.
   return (
-    <div ref={ref}>
+    <div ref={ref} className={className}>
       <motion.div
         initial={reduce ? false : { clipPath: "inset(100% 0 0 0)" }}
         animate={inView || reduce ? { clipPath: "inset(0% 0 0 0)" } : undefined}
-        transition={{ duration: 1.1, ease }}
-        className={`relative overflow-hidden bg-ink-2 ${aspect}`}
+        transition={{ duration: 1.1, delay, ease }}
       >
-        <motion.div style={{ y }} className="absolute -inset-y-[6%] inset-x-0">
-          <Image
-            src={p.image}
-            alt={`Capture du site ${p.name}`}
-            fill
-            sizes={sizes}
-            className="object-cover object-top transition-transform duration-[1.2s] ease-out-expo group-hover:scale-[1.035]"
-          />
-        </motion.div>
-        {p.url && (
-          <span className="absolute bottom-0 left-0 flex translate-y-full items-center gap-3 bg-paper px-5 py-3 font-display text-sm font-semibold text-ink transition-transform duration-500 ease-out-expo group-hover:translate-y-0 group-focus-visible:translate-y-0">
-            Voir le site <span aria-hidden="true">↗</span>
-          </span>
-        )}
+        {children}
       </motion.div>
     </div>
   );
 }
 
-function ProjectMeta({ p, number, large = false }: { p: Project; number: string; large?: boolean }) {
+/* Le téléphone qui glisse par-dessus l'écran */
+function FloatingPhone({ slug, name, className }: { slug: string; name: string; className: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, amount: 0.3 });
+  const reduce = useReducedMotion();
   return (
-    <div className={`mt-5 ${large ? "grid gap-4 md:grid-cols-12 md:gap-10" : ""}`}>
-      <div className={large ? "md:col-span-6" : ""}>
-        <p className="flex items-center gap-3 font-display text-sm text-faint">
+    <motion.div
+      ref={ref}
+      initial={reduce ? false : { opacity: 0, y: 60 }}
+      animate={inView || reduce ? { opacity: 1, y: 0 } : undefined}
+      transition={{ duration: 1, delay: 0.45, ease }}
+      className={`absolute z-10 ${className}`}
+    >
+      <Phone
+        src={img(slug, "mobile")}
+        alt={`Le site ${name} sur téléphone`}
+        className="transition-transform duration-700 ease-out-expo group-hover:-translate-y-3 group-hover:rotate-[-2deg]"
+      />
+    </motion.div>
+  );
+}
+
+/* ── Projet phare ─────────────────────────────────────── */
+function Featured() {
+  return (
+    <article className="mt-16 md:mt-24" aria-labelledby="projet-phare">
+      <Reveal className="flex flex-wrap items-center gap-x-6 gap-y-2 font-display text-sm">
+        <span className="flex items-center gap-3 text-paper">
+          <span className="h-2 w-2 bg-rose" aria-hidden="true" />
+          Projet phare
+        </span>
+        <span className="text-faint">{featured.category}</span>
+        <span className="flex items-center gap-2 text-faint">
+          <span className="relative flex h-1.5 w-1.5" aria-hidden="true">
+            <span className="absolute inset-0 animate-ping rounded-full bg-[#4ade80] opacity-60" />
+            <span className="relative h-1.5 w-1.5 rounded-full bg-[#4ade80]" />
+          </span>
+          En ligne
+        </span>
+      </Reveal>
+
+      <SplitHeading
+        as="h3"
+        text={`${featured.name} | *— ${featured.place}*`}
+        className="mt-6 font-display text-[clamp(2.75rem,8.5vw,8.5rem)] font-semibold leading-[0.9] tracking-[-0.05em]"
+      />
+      <span id="projet-phare" className="sr-only">{featured.name}, {featured.place}</span>
+
+      {/* Composition : écran + téléphone */}
+      <a
+        href={featured.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group relative mt-12 block md:mt-16 md:pr-[9%]"
+        aria-label={`Voir le site ${featured.name} (nouvel onglet)`}
+      >
+        <Curtain>
+          <BrowserFrame url={featured.url}>
+            <ScrollShot
+              desktop={img(featured.slug, "desktop")}
+              full={img(featured.slug, "full")}
+              alt={`Le site du ${featured.name}, ${featured.place}`}
+              sizes="(min-width: 1400px) 1200px, 92vw"
+            />
+          </BrowserFrame>
+        </Curtain>
+        <FloatingPhone slug={featured.slug} name={featured.name} className="-bottom-10 right-0 w-[26%] md:-bottom-16 md:w-[19%]" />
+        <span className="pointer-events-none absolute bottom-6 left-4 z-20 hidden items-center gap-2 bg-ink/85 px-3 py-1.5 font-display text-xs text-muted backdrop-blur transition-opacity duration-500 group-hover:opacity-0 md:inline-flex">
+          Survole pour parcourir le site <span aria-hidden="true">↓</span>
+        </span>
+      </a>
+
+      <div className="mt-24 grid gap-14 md:mt-32 md:grid-cols-12 md:gap-10">
+        <div className="md:col-span-5">
+          <Reveal>
+            <p className="font-display text-3xl font-medium leading-tight tracking-[-0.02em] md:text-4xl">
+              {featured.highlight}
+            </p>
+            <p className="mt-6 text-lg leading-relaxed text-muted">{featured.intro}</p>
+          </Reveal>
+
+          <Reveal delay={0.1}>
+            <p className="mt-12 font-display text-sm text-faint">Ce qu&apos;on a construit</p>
+            <ul className="mt-4 border-t border-line">
+              {featured.built.map((b) => (
+                <li key={b} className="flex items-center gap-4 border-b border-line py-3.5">
+                  <span className="h-1.5 w-1.5 shrink-0 bg-rose" aria-hidden="true" />
+                  {b}
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+
+          <Reveal delay={0.15} className="mt-10 flex flex-col gap-3 sm:flex-row">
+            <a
+              href={featured.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center justify-between gap-6 bg-paper px-6 py-4 font-semibold text-ink transition-colors hover:bg-violet hover:text-paper"
+            >
+              Voir le site en ligne
+              <span className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">↗</span>
+            </a>
+            <a
+              href="#contact"
+              className="group inline-flex items-center justify-between gap-6 border border-paper/25 px-6 py-4 font-semibold transition-colors hover:border-paper"
+            >
+              Je veux un site comme ça
+              <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+            </a>
+          </Reveal>
+        </div>
+
+        {/* Deux vues de l'intérieur du site */}
+        <div className="grid gap-6 md:col-span-6 md:col-start-7">
+          {featured.shots.slice(0, 2).map((s, i) => (
+            <Curtain key={s.src} delay={i * 0.1} className={i === 1 ? "md:ml-[18%]" : "md:mr-[10%]"}>
+              <div className="relative aspect-[16/10] overflow-hidden border border-line bg-ink-3">
+                <Image src={s.src} alt={s.alt} fill sizes="(min-width: 768px) 45vw, 92vw" className="object-cover object-top" />
+              </div>
+            </Curtain>
+          ))}
+        </div>
+      </div>
+    </article>
+  );
+}
+
+/* ── Autres réalisations ──────────────────────────────── */
+const layout = [
+  "md:col-span-7",
+  "md:col-span-5 md:mt-40",
+  "md:col-span-5",
+  "md:col-span-7 md:mt-40",
+  "md:col-span-7",
+  "md:col-span-5 md:mt-40",
+];
+
+function ProjectCard({ p, index }: { p: Project; index: number }) {
+  const number = String(index + 2).padStart(2, "0");
+  const content = (
+    <>
+      <div className="relative pr-[8%]">
+        <Curtain>
+          <BrowserFrame url={p.url}>
+            <ScrollShot
+              desktop={img(p.slug, "desktop")}
+              full={img(p.slug, "full")}
+              alt={`Le site ${p.name}`}
+              sizes="(min-width: 768px) 55vw, 92vw"
+            />
+          </BrowserFrame>
+        </Curtain>
+        <FloatingPhone slug={p.slug} name={p.name} className="-bottom-8 right-0 w-[24%]" />
+      </div>
+      <div className="mt-14 pr-[8%]">
+        <p className="flex flex-wrap items-center gap-x-3 gap-y-1 font-display text-sm text-faint">
           <span className="text-rose">{number}</span>
           {p.category}
           <span aria-hidden="true">·</span>
           {p.place}
+          {p.concept && <span className="border border-line px-2 py-0.5 text-xs">Projet concept</span>}
         </p>
-        <h3
-          className={`mt-2 font-display font-semibold tracking-[-0.03em] transition-transform duration-500 ease-out-expo group-hover:translate-x-2 ${
-            large ? "text-4xl md:text-6xl" : "text-3xl md:text-4xl"
-          }`}
-        >
-          {p.name}
-        </h3>
+        <h4 className="mt-2 flex items-baseline justify-between gap-4 font-display text-3xl font-semibold tracking-[-0.03em] md:text-4xl">
+          <span className="transition-transform duration-500 ease-out-expo group-hover:translate-x-2">{p.name}</span>
+          {p.url && (
+            <span aria-hidden="true" className="text-xl text-faint transition-all duration-500 group-hover:rotate-45 group-hover:text-rose">
+              ↑
+            </span>
+          )}
+        </h4>
+        <p className="mt-2 max-w-md text-muted">{p.description}</p>
       </div>
-      <div className={large ? "md:col-span-5 md:col-start-8 md:pt-8" : ""}>
-        <p className={`text-muted ${large ? "text-lg" : "mt-2 max-w-md"}`}>{p.description}</p>
-        {p.concept && (
-          <p className="mt-3 inline-block border border-line px-2.5 py-1 text-xs text-faint">Projet concept</p>
-        )}
-      </div>
-    </div>
+    </>
   );
-}
 
-function ProjectLink({ p, children, className = "" }: { p: Project; children: React.ReactNode; className?: string }) {
-  if (!p.url) return <div className={className}>{children}</div>;
-  return (
+  return p.url ? (
     <a
       href={p.url}
       target="_blank"
       rel="noopener noreferrer"
-      className={`group block focus-visible:outline-offset-8 ${className}`}
+      className={`group block ${layout[index % layout.length]}`}
       aria-label={`${p.name} — ${p.category}, ${p.place} (ouvre le site dans un nouvel onglet)`}
     >
-      {children}
+      {content}
     </a>
+  ) : (
+    <div className={`group ${layout[index % layout.length]}`}>{content}</div>
   );
 }
 
-/* Disposition asymétrique des projets secondaires (par paires) */
-const layout = [
-  "md:col-span-7",
-  "md:col-span-4 md:col-start-9 md:mt-40",
-  "md:col-span-5 md:col-start-2",
-  "md:col-span-6 md:col-start-7 md:mt-24",
-  "md:col-span-4 md:col-start-1",
-  "md:col-span-6 md:col-start-6 md:mt-40",
-];
-
 export default function Projects() {
-  const [featured, ...rest] = projects;
-
   return (
     <section id="projets" className="relative mx-auto max-w-[88rem] px-5 py-24 md:px-10 md:py-36">
       <div className="grid gap-8 md:grid-cols-12 md:items-end">
@@ -110,30 +230,27 @@ export default function Projects() {
         </div>
         <Reveal delay={0.2} className="md:col-span-3 md:col-start-10">
           <p className="text-muted">
-            Chaque site est construit autour d&apos;un métier, d&apos;une ambiance et de vrais besoins. Clique pour les visiter.
+            Chaque site est construit autour d&apos;un métier, d&apos;une ambiance et de vrais besoins. Survole un projet pour le
+            parcourir, clique pour le visiter.
           </p>
         </Reveal>
       </div>
 
-      <ProjectLink p={featured} className="mt-16 md:mt-24">
-        <ProjectImage p={featured} sizes="(min-width: 1400px) 1300px, 100vw" aspect="aspect-[4/3] md:aspect-[16/8]" />
-        <ProjectMeta p={featured} number="01" large />
-      </ProjectLink>
+      <Featured />
 
-      <div className="mt-24 grid gap-x-10 gap-y-20 md:mt-36 md:grid-cols-12 md:gap-y-28">
-        {rest.map((p, i) => (
-          <ProjectLink key={p.slug} p={p} className={layout[i % layout.length]}>
-            <ProjectImage
-              p={p}
-              sizes="(min-width: 768px) 50vw, 100vw"
-              aspect={i % 3 === 1 ? "aspect-[4/5] md:aspect-[4/5]" : "aspect-[16/11]"}
-            />
-            <ProjectMeta p={p} number={String(i + 2).padStart(2, "0")} />
-          </ProjectLink>
+      <div className="mt-32 border-t border-line pt-10 md:mt-48">
+        <Reveal>
+          <p className="font-display text-2xl tracking-tight md:text-3xl">Autres réalisations</p>
+        </Reveal>
+      </div>
+
+      <div className="mt-14 grid gap-x-12 gap-y-24 md:mt-20 md:grid-cols-12 md:gap-y-32">
+        {projects.map((p, i) => (
+          <ProjectCard key={p.slug} p={p} index={i} />
         ))}
       </div>
 
-      <Reveal className="mt-24 flex flex-col gap-6 border-t border-line pt-10 md:mt-36 md:flex-row md:items-center md:justify-between">
+      <Reveal className="mt-28 flex flex-col gap-6 border-t border-line pt-10 md:mt-40 md:flex-row md:items-center md:justify-between">
         <p className="font-display text-2xl tracking-tight md:text-3xl">
           Le prochain, <span className="text-violet-soft">c&apos;est peut-être le tien.</span>
         </p>

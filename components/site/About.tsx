@@ -36,7 +36,7 @@ export default function About() {
         </Reveal>
 
         <div className="md:col-span-6 md:col-start-7 md:pt-10">
-          <Label index="04">À propos</Label>
+          <Label index="06">À propos</Label>
           <SplitHeading
             text="Derrière iTrame, une vraie *passion.*"
             className="mt-6 font-display text-[clamp(2.25rem,4.8vw,4.5rem)] font-semibold leading-[0.98] tracking-[-0.04em]"

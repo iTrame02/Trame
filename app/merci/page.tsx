@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Logo from "@/components/site/Logo";
 
 export const metadata: Metadata = {
   title: "Merci",
@@ -10,7 +11,7 @@ export default function MerciPage() {
   return (
     <main className="mx-auto flex min-h-[100svh] max-w-[88rem] flex-col justify-between px-5 py-8 md:px-10 md:py-10">
       <Link href="/" className="font-display text-2xl font-bold tracking-tight">
-        iTrame<span className="text-violet">.</span>
+        <Logo />
       </Link>
 
       <section className="py-20">

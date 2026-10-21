@@ -17,7 +17,7 @@ export default function Why() {
 
   return (
     <section id="pourquoi" className="relative mx-auto max-w-[88rem] px-5 py-24 md:px-10 md:py-36">
-      <Label index="03">Pourquoi iTrame</Label>
+      <Label index="04">Pourquoi iTrame</Label>
       <SplitHeading
         text="Du sur-mesure. | *Sans prise de tête.*"
         className="mt-6 max-w-5xl font-display text-[clamp(2.5rem,6vw,5.5rem)] font-semibold leading-[0.95] tracking-[-0.04em]"

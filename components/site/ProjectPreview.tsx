@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "framer-motion";
 import { useEffect, useState } from "react";
-import { projects } from "@/lib/projects";
+import { img, previewProjects as projects } from "@/lib/projects";
 import { ease } from "./motion";
 
 const DURATION = 4200;
@@ -60,7 +60,7 @@ export default function ProjectPreview() {
         className="absolute -top-6 right-0 hidden w-[62%] overflow-hidden border border-line bg-ink-2 opacity-50 md:-top-10 md:block"
       >
         <div className="relative aspect-[16/10]">
-          <Image src={next.image} alt="" fill sizes="30vw" className="object-cover object-top grayscale" />
+          <Image src={img(next.slug, "desktop")} alt="" fill sizes="30vw" className="object-cover object-top grayscale" />
         </div>
       </motion.div>
 
@@ -85,7 +85,7 @@ export default function ProjectPreview() {
           {prev !== null && (
             <Image
               key={`prev-${projects[prev].slug}`}
-              src={projects[prev].image}
+              src={img(projects[prev].slug, "desktop")}
               alt=""
               fill
               sizes="(min-width: 768px) 50vw, 100vw"
@@ -100,7 +100,7 @@ export default function ProjectPreview() {
             className="absolute inset-0"
           >
             <Image
-              src={p.image}
+              src={img(p.slug, "desktop")}
               alt={`Capture du site ${p.name}`}
               fill
               sizes="(min-width: 768px) 50vw, 100vw"

@@ -28,7 +28,7 @@ export default function Services() {
         </div>
         <SplitHeading
           text="Tout ce qu'il faut pour donner vie à tes *idées.*"
-          className="font-display text-[clamp(2.25rem,4.8vw,4.5rem)] font-semibold leading-[0.98] tracking-[-0.04em] md:col-span-8"
+          className="font-display text-[clamp(1.85rem,4.8vw,4.5rem)] font-semibold leading-[0.98] tracking-[-0.04em] md:col-span-8"
         />
       </div>
 
@@ -50,7 +50,7 @@ export default function Services() {
                   aria-hidden="true"
                   className="hidden h-3 w-0 bg-rose transition-all duration-500 md:block ease-out-expo group-hover:w-3"
                 />
-                <span className="font-display text-3xl font-semibold tracking-[-0.03em] md:text-5xl">{s.title}</span>
+                <span className="font-display text-2xl font-semibold tracking-[-0.03em] md:text-5xl">{s.title}</span>
               </span>
               <span className="relative text-muted md:col-span-4">{s.text}</span>
               <span

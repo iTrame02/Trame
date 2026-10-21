@@ -30,7 +30,7 @@ export default function Hero() {
         </div>
 
         <h1
-          className="font-display text-[clamp(2.75rem,7.4vw,7.25rem)] font-semibold leading-[0.95] tracking-[-0.045em]"
+          className="font-display text-[clamp(2.4rem,7.4vw,7.25rem)] font-semibold leading-[0.95] tracking-[-0.045em]"
           aria-label="Ton activité mérite un site qui se démarque."
         >
           <span aria-hidden="true">
@@ -91,8 +91,8 @@ export default function Hero() {
             </div>
 
             <ul className="anim-fade-up mt-10 space-y-2 text-sm text-muted" style={{ animationDelay: "1.4s" }}>
-              <li className="flex items-center gap-3"><span className="text-rose">—</span> Premier échange gratuit et sans engagement</li>
-              <li className="flex items-center gap-3"><span className="text-rose">—</span> Réponse sous 24 à 48 heures</li>
+              <li className="flex items-center gap-3"><span className="text-rose">—</span> <span><span className="text-paper">Maquette gratuite</span> et sans engagement</span></li>
+              <li className="flex items-center gap-3"><span className="text-rose">—</span> Ton site livré en 5 à 7 jours</li>
               <li className="flex items-center gap-3"><span className="text-rose">—</span> Un seul interlocuteur, du début à la fin</li>
             </ul>
           </div>

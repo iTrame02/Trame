@@ -8,8 +8,12 @@ const faq = [
     a: "Ça dépend de ce dont ton activité a besoin : un site vitrine simple et une boutique en ligne ne demandent pas le même travail. Après un premier échange gratuit, tu reçois un devis clair et détaillé, sans engagement.",
   },
   {
+    q: "La maquette est vraiment gratuite ?",
+    a: "Oui. Je te prépare une maquette de ton futur site, gratuitement et sans engagement. Tu vois concrètement à quoi il va ressembler avant de décider quoi que ce soit.",
+  },
+  {
     q: "Combien de temps faut-il ?",
-    a: "On fixe ensemble un planning réaliste dès le départ, selon la taille du projet et tes disponibilités pour valider les étapes. Tu sais toujours où on en est.",
+    a: "Sauf très gros projet, ton site est livré en 5 à 7 jours maximum, week-end compris. Je travaille 7 jours sur 7 : quand ton projet est lancé, il avance tous les jours.",
   },
   {
     q: "Je n'ai ni textes, ni photos, ni logo. C'est un problème ?",
@@ -25,7 +29,7 @@ const faq = [
   },
   {
     q: "On peut se rencontrer ?",
-    a: "Bien sûr. Le premier échange peut se faire par téléphone, en visio ou en rendez-vous selon où tu te trouves.",
+    a: "Bien sûr. Le premier échange peut se faire par téléphone, en visio ou en rendez-vous selon où tu te trouves. Tu peux aussi m'appeler directement au 078 227 53 10.",
   },
 ];
 
@@ -37,7 +41,7 @@ export default function Faq() {
           <Label index="07">Questions</Label>
           <SplitHeading
             text="Tu te demandes *peut-être…*"
-            className="mt-6 font-display text-[clamp(2.25rem,4.4vw,4rem)] font-semibold leading-[0.98] tracking-[-0.04em]"
+            className="mt-6 font-display text-[clamp(1.85rem,4.4vw,4rem)] font-semibold leading-[0.98] tracking-[-0.04em]"
           />
           <Reveal delay={0.15}>
             <p className="mt-6 text-muted">
@@ -54,7 +58,7 @@ export default function Faq() {
           <div className="border-t border-line">
             {faq.map((item) => (
               <details key={item.q} className="group border-b border-line">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-6 font-display text-xl font-medium tracking-[-0.01em] transition-colors hover:text-violet-soft md:py-7 md:text-2xl [&::-webkit-details-marker]:hidden">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-6 font-display text-lg font-medium tracking-[-0.01em] transition-colors hover:text-violet-soft md:py-7 md:text-2xl [&::-webkit-details-marker]:hidden">
                   {item.q}
                   <span
                     aria-hidden="true"

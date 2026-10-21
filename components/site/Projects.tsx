@@ -70,7 +70,7 @@ function Featured() {
       <SplitHeading
         as="h3"
         text={`${featured.name} | *— ${featured.place}*`}
-        className="mt-6 font-display text-[clamp(2.75rem,8.5vw,8.5rem)] font-semibold leading-[0.9] tracking-[-0.05em]"
+        className="mt-6 font-display text-[clamp(2.15rem,8.5vw,8.5rem)] font-semibold leading-[0.9] tracking-[-0.05em]"
       />
       <span id="projet-phare" className="sr-only">{featured.name}, {featured.place}</span>
 
@@ -225,7 +225,7 @@ export default function Projects() {
           <Label index="01">Projets</Label>
           <SplitHeading
             text="Des idées devenues *réalité.*"
-            className="mt-6 font-display text-[clamp(2.5rem,6vw,5.5rem)] font-semibold leading-[0.95] tracking-[-0.04em]"
+            className="mt-6 font-display text-[clamp(2rem,6vw,5.5rem)] font-semibold leading-[0.95] tracking-[-0.04em]"
           />
         </div>
         <Reveal delay={0.2} className="md:col-span-3 md:col-start-10">

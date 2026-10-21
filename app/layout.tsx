@@ -53,6 +53,7 @@ const jsonLd = {
   name: "iTrame.",
   url: SITE_URL,
   email: "contact@itrame.ch",
+  telephone: "+41782275310",
   description: DESCRIPTION,
   areaServed: { "@type": "Country", name: "Suisse" },
   knowsLanguage: "fr",

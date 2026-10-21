@@ -111,23 +111,14 @@ body {
   to { transform: translateX(-50%); }
 }
 
-/* Le « i » du logo : un tour complet de temps en temps, et au survol */
+/* Le « i » du logo tourne sur lui-même en continu */
 .logo { perspective: 600px; }
 .logo-i {
   display: inline-block;
   transform-origin: 50% 55%;
-  animation: i-spin 7s var(--ease-out-expo) 1.2s infinite;
-}
-.logo:hover .logo-i,
-a:hover > .logo .logo-i,
-a:focus-visible > .logo .logo-i {
-  animation: i-spin-now 0.9s var(--ease-out-expo);
+  animation: i-spin 3.2s linear infinite;
 }
 @keyframes i-spin {
-  0%, 82% { transform: rotateY(0deg); }
-  100% { transform: rotateY(360deg); }
-}
-@keyframes i-spin-now {
   from { transform: rotateY(0deg); }
   to { transform: rotateY(360deg); }
 }

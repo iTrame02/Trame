@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { useEffect, useState } from "react";
+import { EMAIL, PHONE_DISPLAY, PHONE_TEL } from "@/lib/contact";
 import Logo from "./Logo";
 import { ease } from "./motion";
 
@@ -111,9 +112,16 @@ export default function Nav() {
               >
                 Parlons de ton projet <span>↗</span>
               </a>
-              <a href="mailto:contact@itrame.ch" className="mt-5 block text-sm text-muted">
-                contact@itrame.ch
-              </a>
+              <div className="mt-3 grid grid-cols-2 gap-3">
+                <a href={`tel:${PHONE_TEL}`} className="border border-line px-4 py-4">
+                  <span className="block text-xs text-faint">Appeler</span>
+                  <span className="mt-1 block font-semibold">{PHONE_DISPLAY}</span>
+                </a>
+                <a href={`mailto:${EMAIL}`} className="border border-line px-4 py-4">
+                  <span className="block text-xs text-faint">Écrire</span>
+                  <span className="mt-1 block truncate font-semibold">{EMAIL}</span>
+                </a>
+              </div>
             </motion.div>
           </motion.div>
         )}

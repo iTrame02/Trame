@@ -20,7 +20,7 @@ export default function Why() {
       <Label index="04">Pourquoi iTrame</Label>
       <SplitHeading
         text="Du sur-mesure. | *Sans prise de tête.*"
-        className="mt-6 max-w-5xl font-display text-[clamp(2.5rem,6vw,5.5rem)] font-semibold leading-[0.95] tracking-[-0.04em]"
+        className="mt-6 max-w-5xl font-display text-[clamp(2rem,6vw,5.5rem)] font-semibold leading-[0.95] tracking-[-0.04em]"
       />
 
       <ul className="mt-16 md:mt-24">
@@ -47,7 +47,7 @@ export default function Why() {
               <motion.span
                 variants={{ hidden: reduce ? { y: 0 } : { y: "100%" }, shown: { y: 0 } }}
                 transition={{ duration: 0.8, delay: 0.35, ease }}
-                className="block font-display text-2xl font-medium tracking-[-0.02em] md:text-4xl"
+                className="block font-display text-xl font-medium tracking-[-0.02em] md:text-4xl"
               >
                 {after}
               </motion.span>

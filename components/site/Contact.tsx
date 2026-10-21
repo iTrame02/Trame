@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import { trackLead } from "@/lib/analytics";
+import { EMAIL, PHONE_DISPLAY, PHONE_TEL } from "@/lib/contact";
 import { Label, Reveal, SplitHeading } from "./motion";
 
 const projectTypes = [
@@ -48,22 +49,30 @@ export default function Contact() {
       <Label index="08">Contact</Label>
       <SplitHeading
         text="Et si on créait quelque chose *ensemble ?*"
-        className="mt-6 max-w-5xl font-display text-[clamp(2.75rem,7vw,6.75rem)] font-semibold leading-[0.93] tracking-[-0.045em]"
+        className="mt-6 max-w-5xl font-display text-[clamp(2.2rem,7vw,6.75rem)] font-semibold leading-[0.93] tracking-[-0.045em]"
       />
 
       <div className="mt-16 grid gap-16 md:mt-24 md:grid-cols-12 md:gap-10">
         <Reveal className="md:col-span-4">
           <p className="text-lg leading-relaxed text-muted md:text-xl">
             Une idée, un projet ou simplement une question ? Discutons-en.{" "}
-            <span className="text-paper">Le premier échange est gratuit et sans engagement.</span>
+            <span className="text-paper">Le premier échange et la maquette sont gratuits et sans engagement.</span>
           </p>
 
           <dl className="mt-12 space-y-6 border-t border-line pt-8">
             <div>
+              <dt className="font-display text-sm text-faint">Téléphone</dt>
+              <dd className="mt-1">
+                <a href={`tel:${PHONE_TEL}`} className="text-lg underline decoration-paper/20 underline-offset-4 transition hover:decoration-rose">
+                  {PHONE_DISPLAY}
+                </a>
+              </dd>
+            </div>
+            <div>
               <dt className="font-display text-sm text-faint">E-mail</dt>
               <dd className="mt-1">
-                <a href="mailto:contact@itrame.ch" className="text-lg underline decoration-paper/20 underline-offset-4 transition hover:decoration-rose">
-                  contact@itrame.ch
+                <a href={`mailto:${EMAIL}`} className="text-lg underline decoration-paper/20 underline-offset-4 transition hover:decoration-rose">
+                  {EMAIL}
                 </a>
               </dd>
             </div>

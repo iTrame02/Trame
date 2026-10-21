@@ -30,13 +30,13 @@ export default function Formulas() {
           <Label index="05">Formules</Label>
           <SplitHeading
             text="Une base pour *commencer.*"
-            className="mt-6 font-display text-[clamp(2.5rem,6vw,5.5rem)] font-semibold leading-[0.95] tracking-[-0.04em]"
+            className="mt-6 font-display text-[clamp(2rem,6vw,5.5rem)] font-semibold leading-[0.95] tracking-[-0.04em]"
           />
         </div>
         <Reveal delay={0.15} className="md:col-span-4 md:col-start-9">
           <p className="text-muted">
-            Aucune formule n&apos;est figée : c&apos;est un point de départ. On ajuste ensemble, et tu reçois un devis clair avant
-            de t&apos;engager.
+            Aucune formule n&apos;est figée : c&apos;est un point de départ. Tu reçois une maquette gratuite et un devis clair
+            avant de t&apos;engager.
           </p>
         </Reveal>
       </div>
@@ -55,7 +55,7 @@ export default function Formulas() {
               <span aria-hidden="true" className="absolute inset-x-0 -top-px h-[3px] bg-violet md:inset-x-8" />
             )}
             <div className="flex items-baseline justify-between">
-              <span className="font-display text-7xl font-bold tracking-[-0.06em] text-violet-soft md:text-8xl">{f.letter}</span>
+              <span className="font-display text-6xl font-bold tracking-[-0.06em] text-violet-soft md:text-8xl">{f.letter}</span>
               {f.featured && <span className="font-display text-xs text-rose">Le bon équilibre</span>}
             </div>
             <h3 className="mt-6 font-display text-3xl font-semibold tracking-[-0.03em]">{f.title}</h3>
@@ -74,7 +74,7 @@ export default function Formulas() {
                 f.featured ? "bg-violet hover:bg-paper hover:text-ink" : "border border-paper/25 hover:border-paper"
               }`}
             >
-              Demander un devis gratuit
+              Demander ma maquette gratuite
               <span className="transition-transform duration-300 group-hover/btn:translate-x-1">→</span>
             </a>
           </Reveal>

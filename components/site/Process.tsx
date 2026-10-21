@@ -11,11 +11,11 @@ const steps = [
   },
   {
     title: "On imagine.",
-    text: "Je te propose une direction claire et un devis précis. Pas de jargon, pas de surprise.",
+    text: "Je te prépare une maquette gratuite de ton futur site, avec un devis clair. Tu vois le résultat avant de t'engager.",
   },
   {
     title: "On crée.",
-    text: "Je construis ton site sur mesure. Tu vois l'avancement et tu valides à chaque étape.",
+    text: "Je construis ton site sur mesure et tu valides à chaque étape. Sauf très gros projet, il est prêt en 5 à 7 jours.",
   },
   {
     title: "On fait évoluer.",
@@ -36,7 +36,7 @@ export default function Process() {
           <Label index="03">Méthode</Label>
           <SplitHeading
             text="Un site ne commence pas | par un *site.*"
-            className="mt-6 font-display text-[clamp(2.25rem,4.8vw,4.5rem)] font-semibold leading-[0.98] tracking-[-0.04em]"
+            className="mt-6 font-display text-[clamp(1.85rem,4.8vw,4.5rem)] font-semibold leading-[0.98] tracking-[-0.04em]"
           />
           <Reveal delay={0.15}>
             <p className="mt-6 max-w-sm text-lg text-muted">Il commence par une rencontre. Voilà comment ça se passe, simplement.</p>
@@ -54,7 +54,7 @@ export default function Process() {
             <Reveal as="li" key={s.title} className="relative pb-16 last:pb-0 md:pb-20">
               <span aria-hidden="true" className="absolute -left-12 top-3 h-[11px] w-[11px] border border-violet bg-ink md:-left-16" />
               <p className="font-display text-sm text-rose">Étape 0{i + 1}</p>
-              <h3 className="mt-3 font-display text-3xl font-semibold tracking-[-0.03em] md:text-5xl">{s.title}</h3>
+              <h3 className="mt-3 font-display text-2xl font-semibold tracking-[-0.03em] md:text-5xl">{s.title}</h3>
               <p className="mt-4 max-w-md text-lg leading-relaxed text-muted">{s.text}</p>
             </Reveal>
           ))}

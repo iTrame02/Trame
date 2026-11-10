@@ -1,9 +1,12 @@
-/* Suivi publicitaire centralisé.
-   Pour ajouter une conversion Google Ads précise, renseigne
-   CONVERSION_LABEL (Google Ads → Objectifs → Conversions → « Libellé »). */
+/* Suivi publicitaire centralisé. */
 
-export const GOOGLE_ADS_ID = "AW-18412017925";
-export const CONVERSION_LABEL = "";
+export const GOOGLE_ADS_ID = "AW-18566889039";
+
+/* ⚠️ À REMPLACER par la vraie valeur « send_to » de la conversion
+   Google Ads (Objectifs → Conversions → formulaire de contact),
+   au format "AW-XXXXXXXXX/XXXXXXXXX". Tant que c'est le modèle,
+   aucune conversion n'est envoyée. */
+export const LEAD_CONVERSION_SEND_TO = "AW-XXXXXXXXX/XXXXXXXXX";
 
 const CONSENT_KEY = "itrame-consent";
 
@@ -38,7 +41,12 @@ export function setConsent(value: "granted" | "denied") {
 /* Appelé quand une demande de contact part avec succès. */
 export function trackLead(projectType?: string) {
   gtag("event", "generate_lead", { project_type: projectType || "non précisé" });
-  if (CONVERSION_LABEL) {
-    gtag("event", "conversion", { send_to: `${GOOGLE_ADS_ID}/${CONVERSION_LABEL}` });
-  }
+  trackLeadConversion();
+}
+
+/* Conversion Google Ads « demande de contact ». Sans effet si gtag
+   n'est pas chargé (bloqueur de pub, etc.). */
+export function trackLeadConversion() {
+  if (LEAD_CONVERSION_SEND_TO.includes("XXXX")) return;
+  gtag("event", "conversion", { send_to: LEAD_CONVERSION_SEND_TO });
 }

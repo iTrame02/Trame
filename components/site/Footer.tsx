@@ -31,7 +31,7 @@ export default function Footer() {
               <span className="block font-display text-sm text-faint">Appelle-moi</span>
               <span className="mt-1 block font-display text-2xl font-semibold tracking-[-0.02em] md:text-4xl">{PHONE_DISPLAY}</span>
             </span>
-            <span aria-hidden="true" className="font-display text-2xl text-faint transition-all duration-300 group-hover:rotate-45 group-hover:text-rose">↑</span>
+            <span aria-hidden="true" className="font-display text-2xl text-faint transition-[transform,color] duration-200 ease-out-expo group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-rose">↗</span>
           </a>
           <a
             href={`mailto:${EMAIL}`}
@@ -41,13 +41,13 @@ export default function Footer() {
               <span className="block font-display text-sm text-faint">Écris-moi</span>
               <span className="mt-1 block truncate font-display text-2xl font-semibold tracking-[-0.02em] md:text-4xl">{EMAIL}</span>
             </span>
-            <span aria-hidden="true" className="font-display text-2xl text-faint transition-all duration-300 group-hover:rotate-45 group-hover:text-rose">↑</span>
+            <span aria-hidden="true" className="font-display text-2xl text-faint transition-[transform,color] duration-200 ease-out-expo group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-rose">↗</span>
           </a>
         </div>
 
         <div className="mt-20 grid gap-10 border-t border-line pt-10 text-sm md:mt-28 md:grid-cols-12">
           <div className="md:col-span-5">
-            <a href="#accueil" className="font-display text-3xl font-bold tracking-tight" aria-label="iTrame., retour en haut">
+            <a href="#accueil" className="font-display text-3xl font-semibold tracking-tight" aria-label="iTrame., retour en haut">
               <Logo />
             </a>
             <p className="mt-4 max-w-xs text-muted">

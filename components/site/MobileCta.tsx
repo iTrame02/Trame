@@ -32,7 +32,7 @@ export default function MobileCta() {
   return (
     <div
       aria-hidden={!show}
-      className={`fixed inset-x-3 bottom-3 z-40 flex gap-2 transition-all duration-500 ease-out-expo md:hidden ${
+      className={`fixed inset-x-3 bottom-3 z-40 flex gap-2 transition-[transform,opacity] duration-500 ease-out-expo md:hidden ${
         show ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-[150%] opacity-0"
       }`}
       style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
@@ -51,7 +51,7 @@ export default function MobileCta() {
       <a
         href="#contact"
         tabIndex={show ? 0 : -1}
-        className="flex flex-1 items-center justify-between bg-violet px-5 py-4 font-semibold shadow-[0_10px_30px_-10px_rgb(133_91_255/0.7)]"
+        className="flex flex-1 items-center justify-between bg-violet px-5 py-4 font-semibold"
       >
         Maquette gratuite <span aria-hidden="true">↗</span>
       </a>

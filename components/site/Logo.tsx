@@ -1,4 +1,4 @@
-/* Le logo iTrame. — le « i » tourne sur lui-même en continu. */
+/* Le logo iTrame. — le « i » fait un tour au survol. */
 export default function Logo({ className = "" }: { className?: string }) {
   return (
     <span className={`logo inline-flex items-baseline ${className}`}>

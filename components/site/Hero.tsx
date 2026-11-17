@@ -69,7 +69,7 @@ export default function Hero() {
               className="anim-fade-up max-w-md text-lg leading-relaxed text-muted md:text-xl"
               style={{ animationDelay: "1.1s" }}
             >
-              Des sites web uniques, modernes et pensés pour faire grandir ton activité.{" "}
+              Des sites sur mesure pour indépendants et commerces, du premier café à la mise en ligne.{" "}
               <span className="text-paper">Sans complication, sans mauvaise surprise.</span>
             </p>
 

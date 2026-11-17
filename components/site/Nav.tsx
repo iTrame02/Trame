@@ -36,7 +36,7 @@ export default function Nav() {
         style={{ animationDelay: "0.1s" }}
       >
         <nav className="mx-auto flex h-16 max-w-[88rem] items-center justify-between px-5 md:h-20 md:px-10" aria-label="Navigation principale">
-          <a href="#accueil" className="font-display text-2xl font-bold tracking-tight" onClick={() => setOpen(false)} aria-label="iTrame., retour à l'accueil">
+          <a href="#accueil" className="font-display text-2xl font-semibold tracking-tight" onClick={() => setOpen(false)} aria-label="iTrame., retour à l'accueil">
             <Logo />
           </a>
 

@@ -55,7 +55,7 @@ export default function Formulas() {
               <span aria-hidden="true" className="absolute inset-x-0 -top-px h-[3px] bg-violet md:inset-x-8" />
             )}
             <div className="flex items-baseline justify-between">
-              <span className="font-display text-6xl font-bold tracking-[-0.06em] text-violet-soft md:text-8xl">{f.letter}</span>
+              <span className="font-display text-6xl font-semibold tracking-[-0.05em] text-violet-soft md:text-8xl">{f.letter}</span>
               {f.featured && <span className="font-display text-xs text-rose">Le bon équilibre</span>}
             </div>
             <h3 className="mt-6 font-display text-3xl font-semibold tracking-[-0.03em]">{f.title}</h3>

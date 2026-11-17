@@ -1,15 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { img, previewProjects as projects } from "@/lib/projects";
 import { ease } from "./motion";
 
 const DURATION = 4200;
 
-/* Aperçu animé des vrais sites : défile tout seul, se met en pause
-   au survol, et suit légèrement la souris. */
+/* Aperçu animé des vrais sites : défile tout seul et se met en pause
+   au survol. */
 export default function ProjectPreview() {
   const [{ index, prev }, setState] = useState<{ index: number; prev: number | null }>({ index: 0, prev: null });
   const go = (i: number) => setState((s) => (i === s.index ? s : { index: i, prev: s.index }));
@@ -22,40 +22,18 @@ export default function ProjectPreview() {
     return () => clearTimeout(t);
   }, [index, paused, reduce]);
 
-  const mx = useMotionValue(0);
-  const my = useMotionValue(0);
-  const sx = useSpring(mx, { stiffness: 80, damping: 20 });
-  const sy = useSpring(my, { stiffness: 80, damping: 20 });
-  const frontX = useTransform(sx, (v) => v * 10);
-  const frontY = useTransform(sy, (v) => v * 8);
-  const backX = useTransform(sx, (v) => v * -14);
-  const backY = useTransform(sy, (v) => v * -10);
-
-  const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (reduce) return;
-    const r = e.currentTarget.getBoundingClientRect();
-    mx.set((e.clientX - r.left) / r.width - 0.5);
-    my.set((e.clientY - r.top) / r.height - 0.5);
-  };
-
   const p = projects[index];
   const next = projects[(index + 1) % projects.length];
   const domain = (url?: string) => url?.replace(/^https?:\/\/(www\.)?/, "") ?? "";
 
   return (
     <div
-      onMouseMove={onMove}
       onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => {
-        setPaused(false);
-        mx.set(0);
-        my.set(0);
-      }}
+      onMouseLeave={() => setPaused(false)}
       className="relative"
     >
       {/* Écran de fond : le projet suivant */}
       <motion.div
-        style={{ x: backX, y: backY }}
         aria-hidden="true"
         className="absolute -top-6 right-0 hidden w-[62%] overflow-hidden border border-line bg-ink-2 opacity-50 md:-top-10 md:block"
       >
@@ -69,7 +47,6 @@ export default function ProjectPreview() {
         href={p.url}
         target="_blank"
         rel="noopener noreferrer"
-        style={{ x: frontX, y: frontY }}
         className="relative z-10 block border border-line bg-ink-2 md:mr-[12%] md:mt-12"
         aria-label={`Voir le site ${p.name} (nouvel onglet)`}
       >

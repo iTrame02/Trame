@@ -42,7 +42,7 @@ function FloatingPhone({ slug, name, className }: { slug: string; name: string; 
       <Phone
         src={img(slug, "mobile")}
         alt={`Le site ${name} sur téléphone`}
-        className="transition-transform duration-700 ease-out-expo group-hover:-translate-y-3 group-hover:rotate-[-2deg]"
+        className="transition-transform duration-700 ease-out-expo group-hover:-translate-y-1"
       />
     </motion.div>
   );
@@ -192,8 +192,8 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
         <h4 className="mt-2 flex items-baseline justify-between gap-4 font-display text-3xl font-semibold tracking-[-0.03em] md:text-4xl">
           <span className="transition-transform duration-500 ease-out-expo group-hover:translate-x-2">{p.name}</span>
           {p.url && (
-            <span aria-hidden="true" className="text-xl text-faint transition-all duration-500 group-hover:rotate-45 group-hover:text-rose">
-              ↑
+            <span aria-hidden="true" className="text-xl text-faint transition-[transform,color] duration-200 ease-out-expo group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-rose">
+              ↗
             </span>
           )}
         </h4>

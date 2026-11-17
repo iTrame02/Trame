@@ -48,14 +48,14 @@ export default function Services() {
               <span className="relative flex items-center md:col-span-6 md:gap-4">
                 <span
                   aria-hidden="true"
-                  className="hidden h-3 w-0 bg-rose transition-all duration-500 md:block ease-out-expo group-hover:w-3"
+                  className="hidden h-3 w-3 origin-left scale-x-0 bg-rose transition-transform duration-300 md:block ease-out-expo group-hover:scale-x-100"
                 />
                 <span className="font-display text-2xl font-semibold tracking-[-0.03em] md:text-5xl">{s.title}</span>
               </span>
               <span className="relative text-muted md:col-span-4">{s.text}</span>
               <span
                 aria-hidden="true"
-                className="relative hidden justify-self-end pr-4 font-display text-2xl text-faint transition-all duration-500 group-hover:rotate-45 group-hover:text-rose md:col-span-1 md:block"
+                className="relative hidden justify-self-end pr-4 font-display text-2xl text-faint transition-[transform,color] duration-200 ease-out-expo group-hover:translate-x-1 group-hover:text-rose md:col-span-1 md:block"
               >
                 →
               </span>

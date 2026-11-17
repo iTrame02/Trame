@@ -44,6 +44,14 @@ export const featured = {
 
 export const projects: Project[] = [
   {
+    slug: "capucinecaulliez",
+    name: "Capucine Caulliez Studio",
+    category: "Photographe · Portfolio",
+    place: "Suisse",
+    description: "Un portfolio de photographe luxe et hôtellerie : séries filtrables, livres photo à feuilleter, site bilingue et dashboard pour tout gérer seule.",
+    url: "https://capucine-caulliez-studio.vercel.app",
+  },
+  {
     slug: "lheurebleu",
     name: "L'Heure Bleue",
     category: "Bar à cocktails",

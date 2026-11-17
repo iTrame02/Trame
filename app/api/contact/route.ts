@@ -1,7 +1,5 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 function escapeHtml(value: string) {
   return value
     .replaceAll("&", "&amp;")
@@ -28,6 +26,16 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
+
+    // Client créé à la demande : le build ne doit pas dépendre de la clé.
+    if (!process.env.RESEND_API_KEY) {
+      console.error("RESEND_API_KEY manquante");
+      return Response.json(
+        { error: "Impossible d’envoyer le message." },
+        { status: 500 }
+      );
+    }
+    const resend = new Resend(process.env.RESEND_API_KEY);
 
     const { error } = await resend.emails.send({
       from: "iTrame. <contact@itrame.ch>",

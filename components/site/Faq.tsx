@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Label, Reveal, SplitHeading } from "./motion";
 
 /* Les questions qu'un client se pose avant d'écrire.
@@ -50,7 +51,7 @@ export default function Faq() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <div className="grid gap-12 md:grid-cols-12 md:gap-10">
         <div className="md:col-span-4">
-          <Label index="07">Questions</Label>
+          <Label index="02">Questions</Label>
           <SplitHeading
             text="Tu te demandes *peut-être…*"
             className="mt-6 font-display text-[clamp(1.85rem,4.4vw,4rem)] font-semibold leading-[0.98] tracking-[-0.04em]"
@@ -58,9 +59,9 @@ export default function Faq() {
           <Reveal delay={0.15}>
             <p className="mt-6 text-muted">
               Une autre question ?{" "}
-              <a href="#contact" className="text-paper underline decoration-paper/25 underline-offset-4 hover:decoration-rose">
+              <Link href="/contact" className="text-paper underline decoration-paper/25 underline-offset-4 hover:decoration-rose">
                 Écris-moi
-              </a>
+              </Link>
               , je réponds sous 24 à 48 heures.
             </p>
           </Reveal>

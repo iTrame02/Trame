@@ -1,3 +1,4 @@
+import Link from "next/link";
 import ProjectPreview from "./ProjectPreview";
 import TrameCanvas from "./TrameCanvas";
 
@@ -74,20 +75,20 @@ export default function Hero() {
             </p>
 
             <div className="anim-fade-up mt-10 flex flex-col gap-3 sm:flex-row" style={{ animationDelay: "1.25s" }}>
-              <a
-                href="#contact"
+              <Link
+                href="/contact"
                 className="group inline-flex items-center justify-between gap-6 bg-violet px-6 py-4 font-semibold transition-colors hover:bg-paper hover:text-ink"
               >
                 Parlons de ton projet
                 <span className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">↗</span>
-              </a>
-              <a
-                href="#projets"
+              </Link>
+              <Link
+                href="/projets"
                 className="group inline-flex items-center justify-between gap-6 border border-paper/25 bg-ink/40 px-6 py-4 font-semibold backdrop-blur-sm transition-colors hover:border-paper"
               >
-                Découvrir nos projets
-                <span className="transition-transform duration-300 group-hover:translate-y-0.5">↓</span>
-              </a>
+                Voir les projets
+                <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+              </Link>
             </div>
 
             <ul className="anim-fade-up mt-10 space-y-2 text-sm text-muted" style={{ animationDelay: "1.4s" }}>

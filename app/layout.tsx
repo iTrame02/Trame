@@ -44,8 +44,18 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: "#0b0b12",
-  colorScheme: "dark",
 };
+
+/* Lu avant le premier rendu : applique le thème choisi (sans flash)
+   et décide si l'intro se joue (première visite de la session, accueil). */
+const bootScript = `(function(){try{
+var d=document.documentElement,t=localStorage.getItem('itrame-theme');
+if(t==='light'||t==='dark')d.dataset.theme=t;
+if(location.pathname==='/'&&!sessionStorage.getItem('itrame-intro')&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
+sessionStorage.setItem('itrame-intro','1');d.classList.add('intro');
+setTimeout(function(){d.classList.add('intro-out')},1350);
+setTimeout(function(){d.classList.remove('intro','intro-out')},2300);}
+}catch(e){}})();`;
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -70,7 +80,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" className={`${manrope.variable} ${spaceGrotesk.variable}`}>
+    <html
+      lang="fr"
+      data-theme="dark"
+      suppressHydrationWarning
+      className={`${manrope.variable} ${spaceGrotesk.variable}`}
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: bootScript }} />
+      </head>
       <body>
         {children}
         <ConsentBanner />

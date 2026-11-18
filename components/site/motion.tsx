@@ -53,7 +53,7 @@ export function SplitHeading({
 }: {
   text: string;
   className?: string;
-  as?: "h2" | "h3";
+  as?: "h1" | "h2" | "h3";
 }) {
   const ref = useRef<HTMLHeadingElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.5 });

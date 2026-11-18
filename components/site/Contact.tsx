@@ -45,9 +45,10 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="relative mx-auto max-w-[88rem] px-5 py-24 md:px-10 md:py-36">
-      <Label index="08">Contact</Label>
+    <section id="contact" className="relative mx-auto max-w-[88rem] px-5 pt-32 pb-24 md:px-10 md:pt-44 md:pb-36">
+      <Label index="01">Contact</Label>
       <SplitHeading
+        as="h1"
         text="Et si on créait quelque chose *ensemble ?*"
         className="mt-6 max-w-5xl font-display text-[clamp(2.2rem,7vw,6.75rem)] font-semibold leading-[0.93] tracking-[-0.045em]"
       />

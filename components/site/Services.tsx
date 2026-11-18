@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Label, Reveal, SplitHeading } from "./motion";
 
 const services = [
@@ -35,8 +36,8 @@ export default function Services() {
       <ul className="mt-16 border-t border-line md:mt-24">
         {services.map((s, i) => (
           <Reveal as="li" key={s.title} delay={i * 0.06} className="border-b border-line">
-            <a
-              href="#contact"
+            <Link
+              href="/contact"
               className="group relative grid gap-3 overflow-hidden py-8 md:grid-cols-12 md:items-center md:gap-10 md:py-11"
             >
               {/* Fond qui se tisse au survol */}
@@ -59,7 +60,7 @@ export default function Services() {
               >
                 →
               </span>
-            </a>
+            </Link>
           </Reveal>
         ))}
       </ul>

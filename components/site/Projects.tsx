@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import Image from "next/image";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import { useRef } from "react";
@@ -80,6 +81,7 @@ function Featured() {
         target="_blank"
         rel="noopener noreferrer"
         className="group relative mt-12 block md:mt-16 md:pr-[9%]"
+        data-cursor="Voir le site"
         aria-label={`Voir le site ${featured.name} (nouvel onglet)`}
       >
         <Curtain>
@@ -129,13 +131,13 @@ function Featured() {
               Voir le site en ligne
               <span className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">↗</span>
             </a>
-            <a
-              href="#contact"
+            <Link
+              href="/contact"
               className="group inline-flex items-center justify-between gap-6 border border-paper/25 px-6 py-4 font-semibold transition-colors hover:border-paper"
             >
               Je veux un site comme ça
               <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-            </a>
+            </Link>
           </Reveal>
         </div>
 
@@ -164,8 +166,9 @@ const layout = [
   "md:col-span-5 md:mt-40",
 ];
 
-function ProjectCard({ p, index }: { p: Project; index: number }) {
+function ProjectCard({ p, index, className }: { p: Project; index: number; className?: string }) {
   const number = String(index + 2).padStart(2, "0");
+  const place = className ?? layout[index % layout.length];
   const content = (
     <>
       <div className="relative pr-[8%]">
@@ -207,13 +210,14 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
       href={p.url}
       target="_blank"
       rel="noopener noreferrer"
-      className={`group block ${layout[index % layout.length]}`}
+      className={`group block ${place}`}
+      data-cursor="Voir le site"
       aria-label={`${p.name} — ${p.category}, ${p.place} (ouvre le site dans un nouvel onglet)`}
     >
       {content}
     </a>
   ) : (
-    <div className={`group ${layout[index % layout.length]}`}>{content}</div>
+    <div className={`group ${place}`}>{content}</div>
   );
 }
 
@@ -221,7 +225,7 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
 function NextCard({ index }: { index: number }) {
   const number = String(index + 2).padStart(2, "0");
   return (
-    <a href="#contact" className={`group block ${layout[index % layout.length]}`}>
+    <Link href="/contact" data-cursor="À toi !" className={`group block ${layout[index % layout.length]}`}>
       <div className="pr-[8%]">
         <Curtain>
           <div className="flex aspect-[16/10] flex-col border border-dashed border-paper/20 bg-ink-2/40 transition-colors duration-500 group-hover:border-violet">
@@ -256,33 +260,17 @@ function NextCard({ index }: { index: number }) {
         </h4>
         <p className="mt-2 max-w-md text-muted">Maquette gratuite et devis clair avant de t&apos;engager.</p>
       </div>
-    </a>
+    </Link>
   );
 }
 
-export default function Projects() {
+/* Page Projets : le projet phare puis toutes les réalisations */
+export function ProjectsShowcase() {
   // Nombre impair de projets : la case vide de la grille accueille la carte « Ton site ici »
   const fillSlot = projects.length % 2 === 1;
 
   return (
-    <section id="projets" className="relative mx-auto max-w-[88rem] px-5 py-24 md:px-10 md:py-36">
-      <div className="grid gap-8 md:grid-cols-12 md:items-end">
-        <div className="md:col-span-8">
-          <Label index="01">Projets</Label>
-          <SplitHeading
-            text="Des idées devenues *réalité.*"
-            className="mt-6 font-display text-[clamp(2rem,6vw,5.5rem)] font-semibold leading-[0.95] tracking-[-0.04em]"
-          />
-        </div>
-        <Reveal delay={0.2} className="md:col-span-3 md:col-start-10">
-          <p className="text-muted">
-            Chaque site est construit autour d&apos;un métier, d&apos;une ambiance et de vrais besoins.{" "}
-            <span className="hidden md:inline">Survole un projet pour le parcourir, clique pour le visiter.</span>
-            <span className="md:hidden">Touche un projet pour le visiter.</span>
-          </p>
-        </Reveal>
-      </div>
-
+    <section className="relative mx-auto max-w-[88rem] px-5 pb-24 md:px-10 md:pb-36">
       <Featured />
 
       <div className="mt-32 border-t border-line pt-10 md:mt-48">
@@ -297,21 +285,63 @@ export default function Projects() {
         ))}
         {fillSlot && <NextCard index={projects.length} />}
       </div>
+    </section>
+  );
+}
 
-      {!fillSlot && (
-      <Reveal className="mt-28 flex flex-col gap-6 border-t border-line pt-10 md:mt-40 md:flex-row md:items-center md:justify-between">
-        <p className="font-display text-2xl tracking-tight md:text-3xl">
-          Le prochain, <span className="text-violet-soft">c&apos;est peut-être le tien.</span>
-        </p>
-        <a
-          href="#contact"
-          className="group inline-flex w-fit items-center gap-6 bg-violet px-6 py-4 font-semibold transition-colors hover:bg-paper hover:text-ink"
+/* Accueil : une sélection courte, et le chemin vers tous les projets */
+export function SelectedWork() {
+  const tennis: Project = {
+    slug: featured.slug,
+    name: featured.name,
+    category: featured.category,
+    place: featured.place,
+    description: featured.intro,
+    url: featured.url,
+  };
+  const picks = [tennis, ...projects.slice(0, 2)];
+  const total = projects.length + 1;
+
+  return (
+    <section id="projets" className="relative mx-auto max-w-[88rem] px-5 py-24 md:px-10 md:py-36">
+      <div className="grid gap-8 md:grid-cols-12 md:items-end">
+        <div className="md:col-span-8">
+          <Label index="01">Projets</Label>
+          <SplitHeading
+            text="Des idées devenues *réalité.*"
+            className="mt-6 font-display text-[clamp(2rem,6vw,5.5rem)] font-semibold leading-[0.95] tracking-[-0.04em]"
+          />
+        </div>
+        <Reveal delay={0.2} className="md:col-span-3 md:col-start-10">
+          <p className="text-muted">
+            Chaque site est construit autour d&apos;un métier, d&apos;une ambiance et de vrais besoins.
+          </p>
+        </Reveal>
+      </div>
+
+      <div className="mt-16 grid gap-x-12 gap-y-24 md:mt-24 md:grid-cols-12 md:gap-y-32">
+        <ProjectCard p={picks[0]} index={-1} className="md:col-span-10" />
+        <ProjectCard p={picks[1]} index={0} className="md:col-span-7" />
+        <ProjectCard p={picks[2]} index={1} className="md:col-span-5 md:mt-40" />
+      </div>
+
+      <Reveal className="mt-28 md:mt-40">
+        <Link
+          href="/projets"
+          data-cursor="Tout voir"
+          className="group flex items-end justify-between gap-6 border-t border-line pt-8"
         >
-          Parlons de ton projet
-          <span className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">↗</span>
-        </a>
+          <span className="font-display text-[clamp(2.25rem,7vw,6.5rem)] font-semibold leading-[0.95] tracking-[-0.045em]">
+            Voir les {total} <span className="text-violet-soft">projets</span>
+          </span>
+          <span
+            aria-hidden="true"
+            className="mb-2 font-display text-4xl text-faint transition-[transform,color] duration-300 ease-out-expo group-hover:translate-x-2 group-hover:text-rose md:text-6xl"
+          >
+            →
+          </span>
+        </Link>
       </Reveal>
-      )}
     </section>
   );
 }

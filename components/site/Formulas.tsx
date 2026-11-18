@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Label, Reveal, SplitHeading } from "./motion";
 
 const formulas = [
@@ -24,11 +25,12 @@ const formulas = [
 
 export default function Formulas() {
   return (
-    <section id="formules" className="relative mx-auto max-w-[88rem] px-5 py-24 md:px-10 md:py-36">
+    <section id="formules" className="relative mx-auto max-w-[88rem] px-5 pt-32 pb-24 md:px-10 md:pt-44 md:pb-36">
       <div className="grid gap-8 md:grid-cols-12 md:items-end">
         <div className="md:col-span-7">
-          <Label index="05">Formules</Label>
+          <Label index="01">Formules</Label>
           <SplitHeading
+            as="h1"
             text="Une base pour *commencer.*"
             className="mt-6 font-display text-[clamp(2rem,6vw,5.5rem)] font-semibold leading-[0.95] tracking-[-0.04em]"
           />
@@ -68,15 +70,15 @@ export default function Formulas() {
                 </li>
               ))}
             </ul>
-            <a
-              href="#contact"
+            <Link
+              href="/contact"
               className={`group/btn mt-10 inline-flex items-center justify-between gap-6 px-6 py-4 font-semibold transition-colors md:mt-auto ${
                 f.featured ? "bg-violet hover:bg-paper hover:text-ink" : "border border-paper/25 hover:border-paper"
               }`}
             >
               Demander ma maquette gratuite
               <span className="transition-transform duration-300 group-hover/btn:translate-x-1">→</span>
-            </a>
+            </Link>
           </Reveal>
         ))}
       </div>

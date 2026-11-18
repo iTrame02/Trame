@@ -104,20 +104,22 @@ export default function TrameCanvas({ className = "" }: { className?: string }) 
       ctx!.clearRect(0, 0, w, h);
       ctx!.lineWidth = 1;
       const big = Math.max(w, h);
+      // Couleurs selon le thème : fils clairs sur fond noir, fils encre sur fond clair
+      const light = document.documentElement.dataset.theme === "light";
 
       strokeLines(true, t, 0.2);
       const gh = ctx!.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, big * 0.55);
-      gh.addColorStop(0, "rgba(229,106,217,0.75)");
-      gh.addColorStop(0.18, "rgba(133,91,255,0.45)");
-      gh.addColorStop(1, "rgba(133,91,255,0.06)");
+      gh.addColorStop(0, light ? "rgba(194,56,159,0.7)" : "rgba(229,106,217,0.75)");
+      gh.addColorStop(0.18, light ? "rgba(106,61,255,0.42)" : "rgba(133,91,255,0.45)");
+      gh.addColorStop(1, light ? "rgba(106,61,255,0.07)" : "rgba(133,91,255,0.06)");
       ctx!.strokeStyle = gh;
       ctx!.stroke();
 
       strokeLines(false, t, 0.5);
       const gv = ctx!.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, big * 0.45);
-      gv.addColorStop(0, "rgba(247,246,250,0.35)");
-      gv.addColorStop(0.25, "rgba(247,246,250,0.08)");
-      gv.addColorStop(1, "rgba(247,246,250,0.025)");
+      gv.addColorStop(0, light ? "rgba(13,12,20,0.3)" : "rgba(247,246,250,0.35)");
+      gv.addColorStop(0.25, light ? "rgba(13,12,20,0.08)" : "rgba(247,246,250,0.08)");
+      gv.addColorStop(1, light ? "rgba(13,12,20,0.03)" : "rgba(247,246,250,0.025)");
       ctx!.strokeStyle = gv;
       ctx!.stroke();
 
@@ -133,12 +135,16 @@ export default function TrameCanvas({ className = "" }: { className?: string }) 
       if (visible && !was && !reduce) raf = requestAnimationFrame(draw);
     });
     io.observe(canvas);
+    // Sans animation, on redessine une fois quand le thème change
+    const mo = new MutationObserver(() => reduce && draw(performance.now()));
+    mo.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
     window.addEventListener("resize", resize);
     window.addEventListener("pointermove", onMove, { passive: true });
 
     return () => {
       cancelAnimationFrame(raf);
       io.disconnect();
+      mo.disconnect();
       window.removeEventListener("resize", resize);
       window.removeEventListener("pointermove", onMove);
     };

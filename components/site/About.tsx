@@ -6,12 +6,12 @@ import { Label, Reveal, SplitHeading } from "./motion";
    Sur ordinateur, le texte vient se poser sur la partie sombre. */
 export default function About() {
   return (
-    <section id="a-propos" className="relative mx-auto max-w-[88rem] py-24 md:px-10 md:py-36">
+    <section id="a-propos" className="relative mx-auto max-w-[88rem] pt-28 pb-24 md:px-10 md:pt-36 md:pb-36">
       <div className="px-5 md:px-0">
-        <Label index="06">À propos</Label>
+        <Label index="01">À propos</Label>
       </div>
 
-      <div className="relative mt-8 md:mt-12">
+      <div className="force-dark relative mt-8 md:mt-12">
         <Reveal>
           <div className="relative aspect-[1556/1011] w-full overflow-hidden md:w-[78%]">
             <Image
@@ -30,6 +30,7 @@ export default function About() {
 
         <div className="relative px-5 md:absolute md:inset-y-0 md:right-0 md:flex md:w-[48%] md:flex-col md:justify-center md:px-0">
           <SplitHeading
+            as="h1"
             text="Derrière iTrame, une vraie *passion.*"
             className="-mt-4 font-display text-[clamp(1.9rem,4.4vw,4.25rem)] font-semibold leading-[0.98] tracking-[-0.04em] md:mt-0"
           />

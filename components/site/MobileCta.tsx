@@ -1,33 +1,34 @@
 "use client";
 
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { PHONE_TEL } from "@/lib/contact";
 
 /* Barre d'action mobile : appeler en un geste, ou demander sa
-   maquette gratuite. Masquée sur le hero, au formulaire et en pied de page. */
+   maquette gratuite. Apparaît après le premier écran, se retire
+   au-dessus du pied de page et sur la page contact. */
 export default function MobileCta() {
-  const [show, setShow] = useState(false);
+  const pathname = usePathname();
+  const [pastFold, setPastFold] = useState(false);
+  const [atFooter, setAtFooter] = useState(false);
 
   useEffect(() => {
-    const hero = document.getElementById("accueil");
-    const contact = document.getElementById("contact");
+    const onScroll = () => setPastFold(window.scrollY > window.innerHeight * 0.7);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+
     const footer = document.querySelector("footer");
-    if (!hero || !contact || !footer) return;
-    let pastHero = false;
-    const hidden = new Set<Element>();
-    const io = new IntersectionObserver((entries) => {
-      for (const e of entries) {
-        if (e.target === hero) pastHero = !e.isIntersecting;
-        else if (e.isIntersecting) hidden.add(e.target);
-        else hidden.delete(e.target);
-      }
-      setShow(pastHero && hidden.size === 0);
-    });
-    io.observe(hero);
-    io.observe(contact);
-    io.observe(footer);
-    return () => io.disconnect();
-  }, []);
+    const io = footer ? new IntersectionObserver(([e]) => setAtFooter(e.isIntersecting)) : null;
+    if (footer && io) io.observe(footer);
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      io?.disconnect();
+    };
+  }, [pathname]);
+
+  const show = pastFold && !atFooter && pathname !== "/contact";
 
   return (
     <div
@@ -35,7 +36,7 @@ export default function MobileCta() {
       className={`fixed inset-x-3 bottom-3 z-40 flex gap-2 transition-[transform,opacity] duration-500 ease-out-expo md:hidden ${
         show ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-[150%] opacity-0"
       }`}
-      style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
+      style={{ paddingBottom: "env(safe-area-inset-bottom)", viewTransitionName: "mobile-cta" }}
     >
       <a
         href={`tel:${PHONE_TEL}`}
@@ -48,13 +49,13 @@ export default function MobileCta() {
         </svg>
         Appeler
       </a>
-      <a
-        href="#contact"
+      <Link
+        href="/contact"
         tabIndex={show ? 0 : -1}
         className="flex flex-1 items-center justify-between bg-violet px-5 py-4 font-semibold"
       >
         Maquette gratuite <span aria-hidden="true">↗</span>
-      </a>
+      </Link>
     </div>
   );
 }

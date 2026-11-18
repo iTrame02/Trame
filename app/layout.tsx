@@ -17,7 +17,7 @@ const spaceGrotesk = Space_Grotesk({
 
 const SITE_URL = "https://www.itrame.ch";
 const DESCRIPTION =
-  "Studio web suisse : des sites uniques, modernes et pensés pour faire grandir ton activité. Indépendants, restaurants, commerces et petites entreprises. Premier échange gratuit.";
+  "Création de sites web sur mesure en Suisse romande pour indépendants, restaurants et commerces. Maquette gratuite, site livré en 5 à 7 jours, un seul interlocuteur.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -55,7 +55,12 @@ const jsonLd = {
   email: "contact@itrame.ch",
   telephone: "+41782275310",
   description: DESCRIPTION,
-  areaServed: { "@type": "Country", name: "Suisse" },
+  image: `${SITE_URL}/opengraph-image`,
+  founder: { "@type": "Person", name: "Mattias" },
+  areaServed: [
+    { "@type": "Country", name: "Suisse" },
+    { "@type": "Place", name: "Suisse romande" },
+  ],
   knowsLanguage: "fr",
 };
 

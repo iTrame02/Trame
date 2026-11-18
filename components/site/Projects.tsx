@@ -217,7 +217,53 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
   );
 }
 
+/* La place libre de la grille : le prochain projet, celui du visiteur */
+function NextCard({ index }: { index: number }) {
+  const number = String(index + 2).padStart(2, "0");
+  return (
+    <a href="#contact" className={`group block ${layout[index % layout.length]}`}>
+      <div className="pr-[8%]">
+        <Curtain>
+          <div className="flex aspect-[16/10] flex-col border border-dashed border-paper/20 bg-ink-2/40 transition-colors duration-500 group-hover:border-violet">
+            <div className="flex items-center gap-1.5 border-b border-dashed border-paper/15 px-4 py-3" aria-hidden="true">
+              <span className="h-2 w-2 rounded-full bg-paper/15" />
+              <span className="h-2 w-2 rounded-full bg-paper/15" />
+              <span className="h-2 w-2 rounded-full bg-paper/15" />
+              <span className="ml-3 font-display text-xs text-faint">ton-activite.ch</span>
+            </div>
+            <div className="flex flex-1 items-center justify-center">
+              <p className="font-display text-[clamp(2rem,4vw,3.5rem)] font-semibold tracking-[-0.04em] text-faint transition-colors duration-500 group-hover:text-paper">
+                Ton site ici<span className="text-violet">.</span>
+              </p>
+            </div>
+          </div>
+        </Curtain>
+      </div>
+      <div className="mt-14 pr-[8%]">
+        <p className="flex flex-wrap items-center gap-x-3 gap-y-1 font-display text-sm text-faint">
+          <span className="text-rose">{number}</span>
+          Ton activité
+          <span aria-hidden="true">·</span>
+          Ta ville
+        </p>
+        <h4 className="mt-2 flex items-baseline justify-between gap-4 font-display text-3xl font-semibold tracking-[-0.03em] md:text-4xl">
+          <span className="transition-transform duration-500 ease-out-expo group-hover:translate-x-2">
+            Le prochain, <span className="text-violet-soft">c&apos;est peut-être le tien.</span>
+          </span>
+          <span aria-hidden="true" className="text-xl text-faint transition-[transform,color] duration-200 ease-out-expo group-hover:translate-x-1 group-hover:text-rose">
+            →
+          </span>
+        </h4>
+        <p className="mt-2 max-w-md text-muted">Maquette gratuite et devis clair avant de t&apos;engager.</p>
+      </div>
+    </a>
+  );
+}
+
 export default function Projects() {
+  // Nombre impair de projets : la case vide de la grille accueille la carte « Ton site ici »
+  const fillSlot = projects.length % 2 === 1;
+
   return (
     <section id="projets" className="relative mx-auto max-w-[88rem] px-5 py-24 md:px-10 md:py-36">
       <div className="grid gap-8 md:grid-cols-12 md:items-end">
@@ -230,8 +276,9 @@ export default function Projects() {
         </div>
         <Reveal delay={0.2} className="md:col-span-3 md:col-start-10">
           <p className="text-muted">
-            Chaque site est construit autour d&apos;un métier, d&apos;une ambiance et de vrais besoins. Survole un projet pour le
-            parcourir, clique pour le visiter.
+            Chaque site est construit autour d&apos;un métier, d&apos;une ambiance et de vrais besoins.{" "}
+            <span className="hidden md:inline">Survole un projet pour le parcourir, clique pour le visiter.</span>
+            <span className="md:hidden">Touche un projet pour le visiter.</span>
           </p>
         </Reveal>
       </div>
@@ -248,8 +295,10 @@ export default function Projects() {
         {projects.map((p, i) => (
           <ProjectCard key={p.slug} p={p} index={i} />
         ))}
+        {fillSlot && <NextCard index={projects.length} />}
       </div>
 
+      {!fillSlot && (
       <Reveal className="mt-28 flex flex-col gap-6 border-t border-line pt-10 md:mt-40 md:flex-row md:items-center md:justify-between">
         <p className="font-display text-2xl tracking-tight md:text-3xl">
           Le prochain, <span className="text-violet-soft">c&apos;est peut-être le tien.</span>
@@ -262,6 +311,7 @@ export default function Projects() {
           <span className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">↗</span>
         </a>
       </Reveal>
+      )}
     </section>
   );
 }

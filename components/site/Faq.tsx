@@ -33,9 +33,21 @@ const faq = [
   },
 ];
 
+/* Données structurées : Google peut afficher ces questions dans ses résultats */
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faq.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: { "@type": "Answer", text: item.a },
+  })),
+};
+
 export default function Faq() {
   return (
     <section id="faq" className="relative mx-auto max-w-[88rem] px-5 py-24 md:px-10 md:py-36">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <div className="grid gap-12 md:grid-cols-12 md:gap-10">
         <div className="md:col-span-4">
           <Label index="07">Questions</Label>
